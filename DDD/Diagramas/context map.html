@@ -212,14 +212,6 @@
             </div>
 
             <div class="context">
-                <div class="context-header">🔍 Inspección</div>
-                <div class="entity">✅ Checklist</div>
-                <div class="entity">🛠️ Estado Vehículo</div>
-                <div class="entity">💰 Presupuesto Rep.</div>
-                <div class="entity">📝 Orden Trabajo</div>
-            </div>
-
-            <div class="context">
                 <div class="context-header">📦 Inventario</div>
                 <div class="entity">🚙 Stock Autos</div>
                 <div class="entity">✨ Stock Lujos</div>
@@ -237,7 +229,7 @@
             </div>
 
             <div class="context">
-                <div class="context-header">👤 Cliente / CRM</div>
+                <div class="context-header">👤 Cliente</div>
                 <div class="entity">📇 Perfil Cliente</div>
                 <div class="entity">📚 Historial</div>
                 <div class="entity">⭐ Preferencias</div>
@@ -269,7 +261,7 @@
             </div>
 
             <div class="context">
-                <div class="context-header">🔧 Postventa / Taller</div>
+                <div class="context-header">🔧 Postventa</div>
                 <div class="entity">🛠️ Órdenes Servicio</div>
                 <div class="entity">🔐 Garantías</div>
                 <div class="entity">📅 Mantenimientos</div>
@@ -281,8 +273,6 @@
             <h2>🔄 Flujo Operativo Principal</h2>
             <div class="flow-diagram">
                 <div class="flow-box">Recepción</div>
-                <span class="flow-arrow">→</span>
-                <div class="flow-box">Inspección</div>
                 <span class="flow-arrow">→</span>
                 <div class="flow-box">Inventario</div>
                 <span class="flow-arrow">↔</span>
@@ -309,15 +299,7 @@
                 <span class="rel-arrow">→</span>
                 <span class="rel-label">VehículoRecepcionado</span>
                 <span class="rel-arrow">→</span>
-                <span class="rel-target">Inspección, Inventario</span>
-            </div>
-
-            <div class="relationship">
-                <span class="rel-source">Inspección</span>
-                <span class="rel-arrow">→</span>
-                <span class="rel-label">InspecciónCompletada</span>
-                <span class="rel-arrow">→</span>
-                <span class="rel-target">Inventario, Taller</span>
+                <span class="rel-target">Inventario</span>
             </div>
 
             <div class="relationship">
@@ -373,11 +355,11 @@
                 <span class="rel-arrow">→</span>
                 <span class="rel-label">EntregaRealizada</span>
                 <span class="rel-arrow">→</span>
-                <span class="rel-target">Postventa, CRM</span>
+                <span class="rel-target">Postventa</span>
             </div>
 
             <div class="relationship">
-                <span class="rel-source">Cliente / CRM</span>
+                <span class="rel-source">Cliente</span>
                 <span class="rel-arrow">↔</span>
                 <span class="rel-label">DatosCliente, Historial</span>
                 <span class="rel-arrow">↔</span>
@@ -389,7 +371,7 @@
                 <span class="rel-arrow">→</span>
                 <span class="rel-label">ServicioCompletado</span>
                 <span class="rel-arrow">→</span>
-                <span class="rel-target">CRM, Ventas</span>
+                <span class="rel-target">Ventas</span>
             </div>
         </div>
     </div>
