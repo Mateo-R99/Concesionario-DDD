@@ -11,7 +11,7 @@ namespace ConcesionarioDDD.Dominio.ValueObjects
         public decimal PrecioFinal { get; private set; }
 
         private Precio() // Para EF Core
-        { 
+        {
             MontoBase = 0;
             Moneda = "COP";
             PrecioFinal = 0;

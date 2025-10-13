@@ -1,51 +1,50 @@
 using ConcesionarioDDD.SharedKernel;
 using ConcesionarioDDD.Dominio.ValueObjects;
 using ConcesionarioDDD.Dominio.Events;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace ConcesionarioDDD.Dominio.Agregados
+namespace ConcesionarioDDD.Dominio.Entidades
 {
-    public class VehiculoAgregado : Entity<Guid>
+    public class Vehiculo : Entity<Guid>
     {
-        private readonly List<Modificacion> _modificaciones;
-
-        public string Marca { get; private set; }
-        public string Modelo { get; private set; }
+        public string Marca { get; private set; } = string.Empty;
+        public string Modelo { get; private set; } = string.Empty;
         public int Año { get; private set; }
-        public string Color { get; private set; }
-        public Precio PrecioBase { get; private set; }
+        public string Color { get; private set; } = string.Empty;
+        public decimal PrecioBase { get; private set; }
         public EstadoVehiculo Estado { get; private set; }
+
+        private readonly List<Modificacion> _modificaciones = new();
         public IReadOnlyCollection<Modificacion> Modificaciones => _modificaciones.AsReadOnly();
 
-        private VehiculoAgregado()
-        {
-            _modificaciones = new List<Modificacion>();
-            Marca = string.Empty;
-            Modelo = string.Empty;
-            Color = string.Empty;
-            PrecioBase = new Precio(0);  // Valor por defecto para EF Core
-        }
+        // Propiedad calculada para el precio total
+        public decimal PrecioTotal => PrecioBase + _modificaciones.Sum(m => m.Precio);
 
-        public VehiculoAgregado(string marca, string modelo, int año, string color, decimal precioBase)
+        private Vehiculo() { } // Para EF Core
+
+        public Vehiculo(string marca, string modelo, int año, string color, decimal precioBase)
         {
             if (string.IsNullOrWhiteSpace(marca))
                 throw new ArgumentException("La marca no puede estar vacía", nameof(marca));
+
             if (string.IsNullOrWhiteSpace(modelo))
                 throw new ArgumentException("El modelo no puede estar vacío", nameof(modelo));
+
             if (año < 1900 || año > DateTime.Now.Year + 1)
-                throw new ArgumentException("El año debe ser válido", nameof(año));
-            if (string.IsNullOrWhiteSpace(color))
-                throw new ArgumentException("El color no puede estar vacío", nameof(color));
-            if (precioBase <= 0)
-                throw new ArgumentException("El precio base debe ser mayor a cero", nameof(precioBase));
+                throw new ArgumentException("El año no es válido", nameof(año));
+
+            if (precioBase < 0)
+                throw new ArgumentException("El precio no puede ser negativo", nameof(precioBase));
 
             Id = Guid.NewGuid();
             Marca = marca;
             Modelo = modelo;
             Año = año;
             Color = color;
-            PrecioBase = new Precio(precioBase);
+            PrecioBase = precioBase;
             Estado = EstadoVehiculo.Disponible;
-            _modificaciones = new List<Modificacion>();
         }
 
         public Result AgregarModificacion(string descripcion, decimal precio)
@@ -54,7 +53,7 @@ namespace ConcesionarioDDD.Dominio.Agregados
                 return Result.Fail("No se pueden agregar modificaciones a un vehículo vendido");
 
             if (string.IsNullOrWhiteSpace(descripcion))
-                return Result.Fail("La descripción de la modificación no puede estar vacía");
+                return Result.Fail("La descripción no puede estar vacía");
 
             if (precio <= 0)
                 return Result.Fail("El precio de la modificación debe ser mayor a cero");
@@ -62,16 +61,21 @@ namespace ConcesionarioDDD.Dominio.Agregados
             var modificacion = new Modificacion(descripcion, precio);
             _modificaciones.Add(modificacion);
 
+            // Publicar evento de dominio
+            AgregarEventoDominio(new ModificacionAgregada(Id, descripcion, precio));
+
             return Result.Success();
         }
 
-        public Result Reservar()
+        public Result MarcarComoReservado()
         {
             if (Estado != EstadoVehiculo.Disponible)
                 return Result.Fail("El vehículo no está disponible para reserva");
 
             Estado = EstadoVehiculo.Reservado;
-            AddDomainEvent(new VehiculoReservadoEvent(Id));
+
+            // Publicar evento de dominio
+            AgregarEventoDominio(new VehiculoReservado(Id, Marca, Modelo));
 
             return Result.Success();
         }
@@ -82,7 +86,9 @@ namespace ConcesionarioDDD.Dominio.Agregados
                 return Result.Fail("El vehículo debe estar reservado para marcarlo como vendido");
 
             Estado = EstadoVehiculo.Vendido;
-            AddDomainEvent(new VehiculoVendidoEvent(Id));
+
+            // Publicar evento de dominio
+            AgregarEventoDominio(new VehiculoVendido(Id, Marca, Modelo, PrecioTotal));
 
             return Result.Success();
         }
@@ -93,15 +99,11 @@ namespace ConcesionarioDDD.Dominio.Agregados
                 return Result.Fail("El vehículo no está reservado");
 
             Estado = EstadoVehiculo.Disponible;
-            AddDomainEvent(new VehiculoReservaEventoCancelado(Id));
+
+            // Publicar evento de dominio
+            AgregarEventoDominio(new ReservaCancelada(Id));
 
             return Result.Success();
-        }
-
-        public decimal CalcularPrecioTotal()
-        {
-            decimal precioModificaciones = _modificaciones.Sum(m => m.Precio);
-            return PrecioBase.MontoBase + precioModificaciones;
         }
     }
 }

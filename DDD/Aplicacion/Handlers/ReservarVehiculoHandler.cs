@@ -30,7 +30,7 @@ namespace ConcesionarioDDD.Aplicacion.Handlers
             {
                 // Obtener el agregado
                 var vehiculo = await _vehiculoRepositorio.ObtenerPorIdAsync(command.VehiculoId);
-                
+
                 if (vehiculo == null)
                     return Result<bool>.Fail("Vehículo no encontrado");
 

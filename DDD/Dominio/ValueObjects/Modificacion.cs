@@ -7,8 +7,8 @@ namespace ConcesionarioDDD.Dominio.ValueObjects
         public string Descripcion { get; private set; } = string.Empty;
         public decimal Precio { get; private set; }
 
-        private Modificacion() 
-        { 
+        private Modificacion()
+        {
             Descripcion = string.Empty;
             Precio = 0;
         } // Para EF Core

@@ -9,8 +9,8 @@ namespace ConcesionarioDDD.Dominio.Entidades
         public string Email { get; private set; } = string.Empty;
         public string Telefono { get; private set; } = string.Empty;
 
-        private Cliente() 
-        { 
+        private Cliente()
+        {
             Nombre = string.Empty;
             Identificacion = string.Empty;
             Email = string.Empty;

@@ -29,7 +29,7 @@ namespace ConcesionarioDDD.Aplicacion.Handlers
             try
             {
                 var vehiculo = await _vehiculoRepositorio.ObtenerPorIdAsync(command.VehiculoId);
-                
+
                 if (vehiculo == null)
                     return Result<bool>.Fail("Vehículo no encontrado");
 

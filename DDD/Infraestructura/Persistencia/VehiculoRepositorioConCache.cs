@@ -28,7 +28,7 @@ namespace ConcesionarioDDD.Infraestructura.Persistencia
         public async Task<VehiculoAgregado?> ObtenerPorIdAsync(Guid id)
         {
             var cacheKey = $"{CACHE_KEY_PREFIX}{id}";
-            
+
             // Intentar obtener del caché
             var vehiculoEnCache = await _cacheService.GetAsync<VehiculoAgregado>(cacheKey);
             if (vehiculoEnCache != null)
@@ -39,7 +39,7 @@ namespace ConcesionarioDDD.Infraestructura.Persistencia
 
             // Si no está en caché, obtener del repositorio
             var vehiculo = await _innerRepository.ObtenerPorIdAsync(id);
-            
+
             if (vehiculo != null)
             {
                 // Guardar en caché por 15 minutos
@@ -62,7 +62,7 @@ namespace ConcesionarioDDD.Infraestructura.Persistencia
 
             // Si no está en caché, obtener del repositorio
             var vehiculos = await _innerRepository.ObtenerTodosAsync();
-            
+
             // Guardar en caché por 5 minutos (lista completa cambia más frecuentemente)
             await _cacheService.SetAsync(CACHE_KEY_ALL, vehiculos, TimeSpan.FromMinutes(5));
             _logger.LogInformation("Lista de vehículos guardada en caché");
@@ -73,29 +73,29 @@ namespace ConcesionarioDDD.Infraestructura.Persistencia
         public async Task AgregarAsync(VehiculoAgregado vehiculo)
         {
             await _innerRepository.AgregarAsync(vehiculo);
-            
+
             // Invalidar caché de lista completa
             await _cacheService.RemoveAsync(CACHE_KEY_ALL);
-            
+
             // Guardar el nuevo vehículo en caché
             var cacheKey = $"{CACHE_KEY_PREFIX}{vehiculo.Id}";
             await _cacheService.SetAsync(cacheKey, vehiculo, TimeSpan.FromMinutes(15));
-            
+
             _logger.LogInformation("Vehículo {VehiculoId} agregado y caché actualizado", vehiculo.Id);
         }
 
         public async Task ActualizarAsync(VehiculoAgregado vehiculo)
         {
             await _innerRepository.ActualizarAsync(vehiculo);
-            
+
             // Invalidar caché del vehículo específico y de la lista completa
             var cacheKey = $"{CACHE_KEY_PREFIX}{vehiculo.Id}";
             await _cacheService.RemoveAsync(cacheKey);
             await _cacheService.RemoveAsync(CACHE_KEY_ALL);
-            
+
             // Actualizar caché con el vehículo modificado
             await _cacheService.SetAsync(cacheKey, vehiculo, TimeSpan.FromMinutes(15));
-            
+
             _logger.LogInformation("Vehículo {VehiculoId} actualizado y caché invalidado", vehiculo.Id);
         }
     }

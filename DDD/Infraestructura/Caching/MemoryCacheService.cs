@@ -50,7 +50,7 @@ namespace ConcesionarioDDD.Infraestructura.Caching
                 };
 
                 _cache.Set(key, value, cacheOptions);
-                _logger.LogInformation("Valor almacenado en caché con clave: {Key}, expiración: {Expiration}", 
+                _logger.LogInformation("Valor almacenado en caché con clave: {Key}, expiración: {Expiration}",
                     key, expiration ?? TimeSpan.FromMinutes(30));
 
                 return Task.CompletedTask;
