@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dominio de Ventas - Análisis DDD</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2.5cm;
+        }
+        
+        body {
+            font-family: 'Calibri', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 21cm;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        
+        h2 {
+            color: #2c3e50;
+            font-size: 22px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            page-break-after: avoid;
+        }
+        
+        h3 {
+            color: #34495e;
+            font-size: 18px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            page-break-after: avoid;
+        }
+        
+        h4 {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            page-break-inside: avoid;
+            font-size: 11px;
+        }
+        
+        table th {
+            background-color: #3498db;
+            color: white;
+            padding: 10px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        table td {
+            border: 1px solid #bdc3c7;
+            padding: 8px;
+            vertical-align: top;
+        }
+        
+        table tr:nth-child(even) {
+            background-color: #ecf0f1;
+        }
+        
+        .code-block {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            white-space: pre-wrap;
+            page-break-inside: avoid;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+        }
+        
+        .toc {
+            background-color: #ecf0f1;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .toc h2 {
+            border: none;
+            margin-top: 0;
+        }
+        
+        .toc ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            padding: 5px 0;
+        }
+        
+        .toc a {
+            color: #2c3e50;
+            text-decoration: none;
+        }
+        
+        .toc a:hover {
+            color: #3498db;
+            text-decoration: underline;
+        }
+        
+        .highlight {
+            background-color: #fff3cd;
+            padding: 10px;
+            border-left: 4px solid #ffc107;
+            margin: 15px 0;
+        }
+        
+        .button-container {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: #ecf0f1;
+            border-radius: 5px;
+        }
+        
+        .download-btn {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .download-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+            }
+            
+            .button-container {
+                display: none;
+            }
+            
+            h2, h3 {
+                page-break-after: avoid;
+            }
+            
+            table, .code-block {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Dominio de Ventas</h1>
+        <div class="subtitle">Análisis Completo - Domain-Driven Design</div>
+        <div class="subtitle">Concesionario de Vehículos</div>
+    </div>
+
+    <div class="button-container">
+        <button class="download-btn" onclick="window.print()">📄 Imprimir / Guardar como PDF</button>
+    </div>
+
+    <div class="toc">
+        <h2>Tabla de Contenidos</h2>
+        <ul>
+            <li><a href="#glosario">1. Glosario de Términos de Negocio (Lenguaje Ubicuo)</a></li>
+            <li><a href="#objetos-valor">2. Objetos de Valor del Dominio</a></li>
+            <li><a href="#eventos">3. Triggers y Eventos del Dominio</a></li>
+            <li><a href="#servicios">4. Servicios del Dominio</a></li>
+        </ul>
+    </div>
+
+    <div class="section" id="glosario">
+        <h2>1. Glosario de Términos de Negocio (Lenguaje Ubicuo)</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 20%">Término</th>
+                    <th style="width: 45%">Definición</th>
+                    <th style="width: 35%">Contexto de Uso</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cliente</strong></td>
+                    <td>Persona física o jurídica que está interesada en adquirir un vehículo o que ya ha realizado una compra</td>
+                    <td>Identificación y seguimiento durante todo el proceso de venta</td>
+                </tr>
+                <tr>
+                    <td><strong>Cotización</strong></td>
+                    <td>Documento que detalla el precio estimado de un vehículo con sus accesorios, incluyendo descuentos y condiciones de pago</td>
+                    <td>Generada durante la negociación con el cliente</td>
+                </tr>
+                <tr>
+                    <td><strong>Trade-in</strong></td>
+                    <td>Vehículo usado que el cliente entrega como parte de pago para la adquisición de un vehículo nuevo o seminuevo</td>
+                    <td>Evaluado y valorado para ajustar el precio final</td>
+                </tr>
+                <tr>
+                    <td><strong>AutoConfigurado</strong></td>
+                    <td>Vehículo personalizado según las preferencias del cliente (color, accesorios, opcionales)</td>
+                    <td>Resultado de la configuración durante el proceso de venta</td>
+                </tr>
+                <tr>
+                    <td><strong>Reserva</strong></td>
+                    <td>Compromiso temporal del cliente para apartar un vehículo específico del inventario</td>
+                    <td>Requiere confirmación del inventario y posible adelanto</td>
+                </tr>
+                <tr>
+                    <td><strong>Venta</strong></td>
+                    <td>Transacción comercial formalizada mediante la cual se transfiere la propiedad de un vehículo al cliente</td>
+                    <td>Genera obligaciones de entrega y pago</td>
+                </tr>
+                <tr>
+                    <td><strong>ContratoVenta</strong></td>
+                    <td>Documento legal que establece los términos y condiciones de la transacción de venta</td>
+                    <td>Vincula legalmente a las partes involucradas</td>
+                </tr>
+                <tr>
+                    <td><strong>Margen</strong></td>
+                    <td>Diferencia entre el precio de venta y el costo de adquisición del vehículo</td>
+                    <td>Indicador clave de rentabilidad</td>
+                </tr>
+                <tr>
+                    <td><strong>Descuento</strong></td>
+                    <td>Reducción aplicada al precio de venta según políticas comerciales o negociación</td>
+                    <td>Sujeto a reglas de autorización según monto</td>
+                </tr>
+                <tr>
+                    <td><strong>Comisión</strong></td>
+                    <td>Porcentaje o monto fijo que recibe el vendedor por cerrar una venta</td>
+                    <td>Calculada según políticas de compensación</td>
+                </tr>
+                <tr>
+                    <td><strong>Precio Base</strong></td>
+                    <td>Precio de referencia del vehículo sin configuraciones adicionales</td>
+                    <td>Punto de partida para la cotización</td>
+                </tr>
+                <tr>
+                    <td><strong>Configuración</strong></td>
+                    <td>Conjunto de opciones y accesorios seleccionados para personalizar el vehículo</td>
+                    <td>Impacta el precio final</td>
+                </tr>
+                <tr>
+                    <td><strong>Financiación</strong></td>
+                    <td>Modalidad de pago que permite al cliente adquirir el vehículo mediante un crédito</td>
+                    <td>Opcional, requiere aprobación crediticia</td>
+                </tr>
+                <tr>
+                    <td><strong>Promoción</strong></td>
+                    <td>Oferta especial temporal que incluye beneficios adicionales o descuentos</td>
+                    <td>Aplica según vigencia y condiciones</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section" id="objetos-valor">
+        <h2>2. Objetos de Valor del Dominio</h2>
+
+        <h3>2.1 Precio</h3>
+        <div class="code-block">Atributos:
+- MontoBase: decimal
+- Moneda: string (COP, USD)
+- Descuentos: List&lt;Descuento&gt;
+- ImpuestosIncluidos: List&lt;Impuesto&gt;
+- PrecioFinal: decimal (calculado)
+
+Invariantes:
+- PrecioFinal debe ser mayor a cero
+- La suma de descuentos no puede exceder el precio base
+- Moneda debe ser válida según configuración regional</div>
+
+        <h3>2.2 DatosVehículo</h3>
+        <div class="code-block">Atributos:
+- VIN: string (único, 17 caracteres)
+- Marca: string
+- Modelo: string
+- Año: int
+- Color: string
+- Kilometraje: int
+- EstadoCondición: enum (Nuevo, Seminuevo, Usado)
+
+Invariantes:
+- VIN debe ser válido según estándar internacional
+- Año debe estar entre 1900 y año actual + 1
+- Kilometraje no puede ser negativo</div>
+
+        <h3>2.3 ConfiguraciónVehículo</h3>
+        <div class="code-block">Atributos:
+- ColorExterior: string
+- ColorInterior: string
+- Accesorios: List&lt;Accesorio&gt;
+- PaquetesOpcionales: List&lt;Paquete&gt;
+- PrecioAdicional: decimal (calculado)
+
+Invariantes:
+- Accesorios deben ser compatibles con el modelo
+- No puede haber accesorios duplicados</div>
+
+        <h3>2.4 ValorTradeIn</h3>
+        <div class="code-block">Atributos:
+- VehículoEntregado: DatosVehículo
+- ValorEstimado: decimal
+- ValorAceptado: decimal
+- FechaEvaluación: DateTime
+- EstadoEvaluación: enum (Pendiente, Aceptado, Rechazado)
+
+Invariantes:
+- ValorAceptado <= ValorEstimado
+- FechaEvaluación no puede ser futura
+- ValorEstimado debe ser mayor a cero</div>
+
+        <h3>2.5 RangoFechas</h3>
+        <div class="code-block">Atributos:
+- FechaInicio: DateTime
+- FechaFin: DateTime
+
+Invariantes:
+- FechaFin debe ser posterior a FechaInicio
+- Ambas fechas deben ser válidas</div>
+
+        <h3>2.6 DatosContacto</h3>
+        <div class="code-block">Atributos:
+- TipoContacto: enum (Email, Teléfono, Celular)
+- Valor: string
+- EsPrincipal: bool
+- Verificado: bool
+
+Invariantes:
+- Formato debe ser válido según TipoContacto
+- Debe existir al menos un contacto principal</div>
+
+        <h3>2.7 CondicionesPago</h3>
+        <div class="code-block">Atributos:
+- TipoPago: enum (Contado, Financiado, Mixto)
+- MontoInicial: decimal
+- PorcentajeInicial: decimal
+- RequiereFinanciación: bool
+- Plazo: int (meses, si aplica)
+
+Invariantes:
+- MontoInicial >= 0
+- Si TipoPago es Contado, MontoInicial debe ser 100% del precio
+- Si es Financiado, MontoInicial debe ser al menos el mínimo establecido</div>
+    </div>
+
+    <div class="section" id="eventos">
+        <h2>3. Triggers y Eventos del Dominio</h2>
+
+        <h3>3.1 Eventos de Entrada (Inbound)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 25%">Evento</th>
+                    <th style="width: 15%">Origen</th>
+                    <th style="width: 30%">Datos</th>
+                    <th style="width: 30%">Acción Desencadenada</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>VehículoListoParaVenta</strong></td>
+                    <td>Inventario</td>
+                    <td>VIN, EstadoStock, PrecioSugerido</td>
+                    <td>Habilitar vehículo en catálogo de ventas</td>
+                </tr>
+                <tr>
+                    <td><strong>AprobacionCrédito</strong></td>
+                    <td>Financiación</td>
+                    <td>ClienteId, MontoAprobado, Plazo, TasaInterés</td>
+                    <td>Continuar con formalización de venta</td>
+                </tr>
+                <tr>
+                    <td><strong>DatosCliente</strong></td>
+                    <td>CRM</td>
+                    <td>ClienteId, Nombre, Contacto, HistorialCompras</td>
+                    <td>Cargar información del cliente en cotización</td>
+                </tr>
+                <tr>
+                    <td><strong>RechazoCrédito</strong></td>
+                    <td>Financiación</td>
+                    <td>ClienteId, MotivoRechazo</td>
+                    <td>Notificar al vendedor y cliente, ofrecer alternativas</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>3.2 Eventos de Salida (Outbound)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 25%">Evento</th>
+                    <th style="width: 20%">Destino</th>
+                    <th style="width: 30%">Datos</th>
+                    <th style="width: 25%">Propósito</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>CotizaciónGenerada</strong></td>
+                    <td>CRM, Cliente</td>
+                    <td>CotizaciónId, VehículoId, PrecioTotal, Vigencia</td>
+                    <td>Registro y seguimiento de propuesta comercial</td>
+                </tr>
+                <tr>
+                    <td><strong>ReservarStock</strong></td>
+                    <td>Inventario</td>
+                    <td>VIN, ClienteId, FechaReserva, DuraciónReserva</td>
+                    <td>Apartar vehículo temporalmente</td>
+                </tr>
+                <tr>
+                    <td><strong>SolicitudCrédito</strong></td>
+                    <td>Financiación</td>
+                    <td>ClienteId, MontoSolicitado, Plazo, VehículoId</td>
+                    <td>Iniciar evaluación crediticia</td>
+                </tr>
+                <tr>
+                    <td><strong>VentaConfirmada</strong></td>
+                    <td>Finanzas, Entrega, Inventario, CRM</td>
+                    <td>VentaId, ClienteId, VIN, MontoTotal, FormaPago</td>
+                    <td>Activar procesos de cobro y entrega</td>
+                </tr>
+                <tr>
+                    <td><strong>CotizaciónVencida</strong></td>
+                    <td>CRM</td>
+                    <td>CotizaciónId, ClienteId</td>
+                    <td>Liberar reserva, actualizar pipeline de ventas</td>
+                </tr>
+                <tr>
+                    <td><strong>TradeInEvaluado</strong></td>
+                    <td>Inventario, Recepción</td>
+                    <td>VehículoTradeIn, ValorAceptado, Estado</td>
+                    <td>Registrar ingreso potencial de vehículo usado</td>
+                </tr>
+                <tr>
+                    <td><strong>VentaCancelada</strong></td>
+                    <td>Inventario, Finanzas, CRM</td>
+                    <td>VentaId, Motivo</td>
+                    <td>Liberar reserva, reversar registros</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>3.3 Triggers Internos</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 30%">Trigger</th>
+                    <th style="width: 35%">Condición</th>
+                    <th style="width: 35%">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>ValidarDisponibilidad</strong></td>
+                    <td>Cliente selecciona vehículo</td>
+                    <td>Consultar a Inventario si está disponible</td>
+                </tr>
+                <tr>
+                    <td><strong>CalcularPrecioFinal</strong></td>
+                    <td>Se modifica configuración o descuentos</td>
+                    <td>Recalcular precio total de cotización</td>
+                </tr>
+                <tr>
+                    <td><strong>AplicarPromoción</strong></td>
+                    <td>Fecha actual dentro de vigencia de promoción</td>
+                    <td>Aplicar descuentos o beneficios automáticamente</td>
+                </tr>
+                <tr>
+                    <td><strong>RequiereAutorización</strong></td>
+                    <td>Descuento excede límite permitido</td>
+                    <td>Enviar solicitud a supervisor</td>
+                </tr>
+                <tr>
+                    <td><strong>NotificarVigencia</strong></td>
+                    <td>Quedan 24h para vencimiento de cotización</td>
+                    <td>Alertar a vendedor y cliente</td>
+                </tr>
+                <tr>
+                    <td><strong>EvaluarTradeIn</strong></td>
+                    <td>Cliente solicita valoración</td>
+                    <td>Crear orden de inspección para vehículo usado</td>
+                </tr>
+                <tr>
+                    <td><strong>ValidarDocumentación</strong></td>
+                    <td>Antes de confirmar venta</td>
+                    <td>Verificar documentos requeridos del cliente</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section" id="servicios">
+        <h2>4. Servicios del Dominio</h2>
+
+        <h3>4.1 Servicios de Aplicación</h3>
+
+        <h4>ServicioCotización</h4>
+        <div class="code-block">Responsabilidades:
+- Crear nueva cotización
+- Calcular precio total con configuraciones y descuentos
+- Aplicar promociones vigentes
+- Validar vigencia de cotización
+- Generar documento de cotización
+
+Métodos:
++ CrearCotización(clienteId, vehículoId, configuración): CotizaciónId
++ CalcularPrecioTotal(cotizaciónId): Precio
++ AplicarDescuento(cotizaciónId, descuento): Result
++ RegenerarCotización(cotizaciónId): Cotización
++ ObtenerCotizacionesVigentes(clienteId): List&lt;Cotización&gt;
+
+Dependencias:
+- Repositorio de Cotizaciones
+- Servicio de Precios
+- Servicio de Promociones
+- Cliente API (CRM)</div>
+
+        <h4>ServicioVenta</h4>
+        <div class="code-block">Responsabilidades:
+- Procesar venta completa
+- Validar condiciones de venta
+- Coordinar con otros bounded contexts
+- Generar contrato de venta
+- Gestionar estados de la venta
+
+Métodos:
++ IniciarVenta(cotizaciónId): VentaId
++ ConfirmarVenta(ventaId, condicionesPago): Result
++ CancelarVenta(ventaId, motivo): Result
++ ObtenerEstadoVenta(ventaId): EstadoVenta
++ GenerarContrato(ventaId): ContratoVenta
+
+Dependencias:
+- Repositorio de Ventas
+- Servicio de Cotización
+- Inventario API
+- Financiación API
+- Finanzas API</div>
+
+        <h4>ServicioTradeIn</h4>
+        <div class="code-block">Responsabilidades:
+- Gestionar evaluación de vehículos en trade-in
+- Calcular valor de mercado
+- Ajustar precio de venta
+- Coordinar recepción del vehículo usado
+
+Métodos:
++ SolicitarEvaluación(vehículoUsado, ventaId): EvaluaciónId
++ RegistrarValorEstimado(evaluaciónId, valor): Result
++ AceptarTradeIn(evaluaciónId, valorFinal): Result
++ AjustarPrecioVenta(ventaId, valorTradeIn): Precio
+
+Dependencias:
+- Repositorio de TradeIns
+- Servicio de Precios
+- Inspección API
+- Recepción API</div>
+
+        <h3>4.2 Servicios de Dominio</h3>
+
+        <h4>ServicioCalculoPrecio</h4>
+        <div class="code-block">Responsabilidades:
+- Calcular precio final con todas las variables
+- Aplicar reglas de descuento
+- Validar márgenes mínimos
+- Calcular comisiones
+
+Métodos:
++ CalcularPrecioFinal(precioBase, configuración, descuentos, tradeIn): Precio
++ ValidarDescuento(descuento, precioBase, políticasVigentes): Result
++ CalcularMargen(precioVenta, costoAdquisición): Margen
++ CalcularComisión(precioVenta, reglaComisión): Monto
+
+Reglas de Negocio:
+- Descuento total no puede exceder X% del precio base
+- Margen mínimo debe ser Y%
+- Comisión se calcula sobre precio final después de descuentos</div>
+
+        <h4>ServicioValidaciónVenta</h4>
+        <div class="code-block">Responsabilidades:
+- Validar que se cumplen todas las condiciones para venta
+- Verificar disponibilidad de vehículo
+- Validar documentación del cliente
+- Verificar límites de crédito
+
+Métodos:
++ ValidarCondicionesVenta(ventaId): ValidationResult
++ VerificarDisponibilidadVehículo(vín): bool
++ ValidarDocumentaciónCompleta(clienteId): ValidationResult
++ ValidarLímitesCrédito(clienteId, montoSolicitado): Result
+
+Reglas de Negocio:
+- Venta no puede proceder sin documentación completa
+- Vehículo debe estar en estado "Disponible" o "Reservado"
+- Si requiere financiación, debe tener aprobación crediticia</div>
+
+        <h4>ServicioPromoción</h4>
+        <div class="code-block">Responsabilidades:
+- Determinar promociones aplicables
+- Calcular beneficios de promociones
+- Validar elegibilidad del cliente
+- Gestionar compatibilidad entre promociones
+
+Métodos:
++ ObtenerPromocionesVigentes(fechaActual): List&lt;Promoción&gt;
++ ValidarElegibilidad(clienteId, promoción): bool
++ CalcularBeneficio(precio, promoción): Descuento
++ ValidarCompatibilidad(promoción1, promoción2): bool
+
+Reglas de Negocio:
+- Cliente debe cumplir requisitos específicos de promoción
+- Algunas promociones no son acumulables
+- Vigencia debe ser validada al momento de aplicar</div>
+
+        <h3>4.3 Servicios de Infraestructura</h3>
+
+        <h4>ServicioNotificación</h4>
+        <div class="code-block">Responsabilidades:
+- Enviar notificaciones a clientes y vendedores
+- Gestionar templates de mensajes
+- Tracking de notificaciones enviadas
+
+Métodos:
++ EnviarCotización(clienteId, cotización): Result
++ NotificarVentaConfirmada(ventaId): Result
++ AlertarVencimientoCotización(cotizaciónId): Result
++ EnviarSeguimiento(clienteId, mensaje): Result</div>
+
+        <h4>ServicioDocumento</h4>
+        <div class="code-block">Responsabilidades:
+- Generar documentos PDF de cotizaciones y contratos
+- Almacenar documentos generados
+- Gestionar firmas digitales
+
+Métodos:
++ GenerarPDFCotización(cotizaciónId): Document
++ GenerarContratoPDF(ventaId): Document
++ AlmacenarDocumento(documento, metadata): DocumentId
++ SolicitarFirmaDigital(documentId, firmantes): Result</div>
+
+        <div class="highlight">
+            <h4>📊 Resumen de Dependencias Entre Servicios</h4>
+            <p><strong>ServicioCotización</strong> depende de: ServicioCalculoPrecio, ServicioPromoción</p>
+            <p><strong>ServicioVenta</strong> depende de: ServicioCotización, ServicioValidaciónVenta, ServicioNotificación, ServicioDocumento</p>
+            <p><strong>ServicioTradeIn</strong> depende de: ServicioCalculoPrecio, ServicioValidaciónVenta</p>
+            <p><strong>ServicioPromoción</strong> depende de: ServicioValidaciónVenta</p>
+        </div>
+    </div>
+
+    <div class="header" style="margin-top: 50px; border-top: 3px solid #2c3e50; border-bottom: none;">
+        <p style="color: #7f8c8d; font-size: 12px;">
+            Documento generado siguiendo principios de Domain-Driven Design (DDD)<br>
+            Bounded Context: Ventas | Concesionario de Vehículos
+        </p>
+    </div>
+
+</body>
+</html>

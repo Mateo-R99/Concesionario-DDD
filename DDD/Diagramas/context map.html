@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dominios - Concesionario</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 1400px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 40px;
+            font-size: 2em;
+        }
+
+        .contexts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .context {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .context:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .context-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .entity {
+            background: white;
+            padding: 10px 15px;
+            margin: 8px 0;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .entity:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .flow-section {
+            margin-top: 40px;
+            padding: 25px;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 15px;
+        }
+
+        .flow-section h2 {
+            color: #d35400;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .flow-box {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .flow-arrow {
+            font-size: 2em;
+            color: #d35400;
+            font-weight: bold;
+        }
+
+        .relationships {
+            margin-top: 40px;
+            padding: 25px;
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+            border-radius: 15px;
+        }
+
+        .relationships h2 {
+            color: #00695c;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .relationship {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .rel-source,
+        .rel-target {
+            font-weight: bold;
+            color: #00695c;
+            min-width: 150px;
+        }
+
+        .rel-arrow {
+            font-size: 1.5em;
+            color: #00695c;
+            font-weight: bold;
+        }
+
+        .rel-label {
+            background: #00695c;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .contexts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-diagram {
+                flex-direction: column;
+            }
+
+            .relationship {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🏢 Arquitectura de Dominios - Concesionario de Vehículos</h1>
+
+        <div class="contexts-grid">
+            <div class="context">
+                <div class="context-header">📥 Recepción</div>
+                <div class="entity">🚚 Ingreso Vehículos</div>
+                <div class="entity">📋 Check-in</div>
+                <div class="entity">🔄 Trade-in</div>
+                <div class="entity">📦 Lote</div>
+            </div>
+
+            <div class="context">
+                <div class="context-header">🔍 Inspección</div>
+                <div class="entity">✅ Checklist</div>
+                <div class="entity">🛠️ Estado Vehículo</div>
+                <div class="entity">💰 Presupuesto Rep.</div>
+                <div class="entity">📝 Orden Trabajo</div>
+            </div>
+
+            <div class="context">
+                <div class="context-header">📦 Inventario</div>
+                <div class="entity">🚙 Stock Autos</div>
+                <div class="entity">✨ Stock Lujos</div>
+                <div class="entity">📍 Ubicación</div>
+                <div class="entity">🔒 Reservas</div>
+            </div>
+
+            <div class="context">
+                <div class="context-header">📊 Ventas</div>
+                <div class="entity">🚗 Autos</div>
+                <div class="entity">⚙️ Configuraciones</div>
+                <div class="entity">💰 Cotizaciones</div>
+                <div class="entity">📋 Ventas</div>
+                <div class="entity">🔄 Trade-in</div>
+            </div>
+
+            <div class="context">
+                <div class="context-header">👤 Cliente / CRM</div>
+                <div class="entity">📇 Perfil Cliente</div>
+                <div class="entity">📚 Historial</div>
+                <div class="entity">⭐ Preferencias</div>
+                <div class="entity">📧 Contactos</div>
+            </div>
+
+            <div class="context">
+                <div class="context-header">💳 Financiación</div>
+                <div class="entity">📄 Solicitud Crédito</div>
+                <div class="entity">📊 Score</div>
+                <div class="entity">💵 Cuotas</div>
+                <div class="entity">✅ Aprobación</div>
+            </div>
+
+            <div class="context">
+                <div class="context-header">💰 Finanzas</div>
+                <div class="entity">💵 Pagos</div>
+                <div class="entity">🧾 Facturación</div>
+                <div class="entity">📑 Comprobantes</div>
+                <div class="entity">💳 Medios de Pago</div>
+            </div>
+
+            <div class="context">
+                <div class="context-header">🚚 Entrega</div>
+                <div class="entity">✅ Checklist Entrega</div>
+                <div class="entity">📄 Documentación</div>
+                <div class="entity">📅 Fecha Entrega</div>
+                <div class="entity">👤 Responsable</div>
+            </div>
+
+            <div class="context">
+                <div class="context-header">🔧 Postventa / Taller</div>
+                <div class="entity">🛠️ Órdenes Servicio</div>
+                <div class="entity">🔐 Garantías</div>
+                <div class="entity">📅 Mantenimientos</div>
+                <div class="entity">📆 Citas</div>
+            </div>
+        </div>
+
+        <div class="flow-section">
+            <h2>🔄 Flujo Operativo Principal</h2>
+            <div class="flow-diagram">
+                <div class="flow-box">Recepción</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box">Inspección</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box">Inventario</div>
+                <span class="flow-arrow">↔</span>
+                <div class="flow-box">Ventas</div>
+                <span class="flow-arrow">↔</span>
+                <div class="flow-box">Cliente</div>
+            </div>
+            <div class="flow-diagram">
+                <div class="flow-box">Financiación</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box">Finanzas</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box">Entrega</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-box">Postventa</div>
+            </div>
+        </div>
+
+        <div class="relationships">
+            <h2>🔗 Relaciones entre Dominios</h2>
+
+            <div class="relationship">
+                <span class="rel-source">Recepción</span>
+                <span class="rel-arrow">→</span>
+                <span class="rel-label">VehículoRecepcionado</span>
+                <span class="rel-arrow">→</span>
+                <span class="rel-target">Inspección, Inventario</span>
+            </div>
+
+            <div class="relationship">
+                <span class="rel-source">Inspección</span>
+                <span class="rel-arrow">→</span>
+                <span class="rel-label">InspecciónCompletada</span>
+                <span class="rel-arrow">→</span>
+                <span class="rel-target">Inventario, Taller</span>
+            </div>
+
+            <div class="relationship">
+                <span class="rel-source">Inventario</span>
+                <span class="rel-arrow">→</span>
+                <span class="rel-label">VehículoListoParaVenta</span>
+                <span class="rel-arrow">→</span>
+                <span class="rel-target">Ventas</span>
+            </div>
+
+            <div class="relationship">
+                <span class="rel-source">Ventas</span>
+                <span class="rel-arrow">→</span>
+                <span class="rel-label">ReservaStock</span>
+                <span class="rel-arrow">→</span>
+                <span class="rel-target">Inventario</span>
+            </div>
+
+            <div class="relationship">
+                <span class="rel-source">Ventas</span>
+                <span class="rel-arrow">→</span>
+                <span class="rel-label">SolicitudCrédito</span>
+                <span class="rel-arrow">→</span>
+                <span class="rel-target">Financiación</span>
+            </div>
+
+            <div class="relationship">
+                <span class="rel-source">Financiación</span>
+                <span class="rel-arrow">→</span>
+                <span class="rel-label">AprobaciónCrédito</span>
+                <span class="rel-arrow">→</span>
+                <span class="rel-target">Ventas, Finanzas</span>
+            </div>
+
+            <div class="relationship">
+                <span class="rel-source">Ventas</span>
+                <span class="rel-arrow">→</span>
+                <span class="rel-label">VentaConfirmada</span>
+                <span class="rel-arrow">→</span>
+                <span class="rel-target">Finanzas, Entrega, Postventa</span>
+            </div>
+
+            <div class="relationship">
+                <span class="rel-source">Finanzas</span>
+                <span class="rel-arrow">→</span>
+                <span class="rel-label">PagoProcesado, FacturaGenerada</span>
+                <span class="rel-arrow">→</span>
+                <span class="rel-target">Entrega, Cliente</span>
+            </div>
+
+            <div class="relationship">
+                <span class="rel-source">Entrega</span>
+                <span class="rel-arrow">→</span>
+                <span class="rel-label">EntregaRealizada</span>
+                <span class="rel-arrow">→</span>
+                <span class="rel-target">Postventa, CRM</span>
+            </div>
+
+            <div class="relationship">
+                <span class="rel-source">Cliente / CRM</span>
+                <span class="rel-arrow">↔</span>
+                <span class="rel-label">DatosCliente, Historial</span>
+                <span class="rel-arrow">↔</span>
+                <span class="rel-target">Ventas, Financiación</span>
+            </div>
+
+            <div class="relationship">
+                <span class="rel-source">Postventa</span>
+                <span class="rel-arrow">→</span>
+                <span class="rel-label">ServicioCompletado</span>
+                <span class="rel-arrow">→</span>
+                <span class="rel-target">CRM, Ventas</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

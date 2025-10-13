@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bounded Context Canvas - Concesionario</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            background: white;
+            padding: 10px 20px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .tab:hover {
+            background: #f0f0f0;
+        }
+
+        .tab.active {
+            background: #333;
+            color: white;
+        }
+
+        .canvas {
+            background: white;
+            border: 3px solid #000;
+            padding: 0;
+            display: none;
+        }
+
+        .canvas.active {
+            display: block;
+        }
+
+        .canvas-header {
+            border-bottom: 3px solid #000;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+        }
+
+        .canvas-header h1 {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        .version {
+            background: #ddd;
+            padding: 5px 15px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        .top-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr 300px;
+            border-bottom: 3px solid #000;
+        }
+
+        .section {
+            padding: 20px;
+            border-right: 3px solid #000;
+        }
+
+        .section:last-child {
+            border-right: none;
+        }
+
+        .section-title {
+            font-weight: bold;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .section-content {
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .section-content ul {
+            margin-left: 20px;
+        }
+
+        .section-content li {
+            margin-bottom: 8px;
+        }
+
+        .middle-section {
+            display: grid;
+            grid-template-columns: 350px 1fr 350px;
+            border-bottom: 3px solid #000;
+            min-height: 400px;
+        }
+
+        .communication-section {
+            padding: 20px;
+            border-right: 3px solid #000;
+        }
+
+        .communication-section:last-child {
+            border-right: none;
+        }
+
+        .collaborator {
+            background: #d8c1f0;
+            border: 2px solid #7e3fb8;
+            border-radius: 50px;
+            padding: 15px 25px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .message {
+            background: #fff9c4;
+            border: 2px solid #f9a825;
+            padding: 10px 15px;
+            margin: 8px 0;
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+
+        .message.event {
+            background: #ffe0b2;
+            border-color: #e65100;
+        }
+
+        .message.command {
+            background: #b3e5fc;
+            border-color: #0277bd;
+        }
+
+        .center-column {
+            padding: 20px;
+            border-right: 3px solid #000;
+        }
+
+        .ubiquitous-box {
+            border: 2px dashed #999;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+
+        .ubiquitous-box h3 {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .ubiquitous-box .subtitle {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .term {
+            display: inline-block;
+            background: white;
+            border: 1px solid #666;
+            padding: 5px 12px;
+            margin: 5px;
+            font-size: 0.9em;
+            border-radius: 3px;
+        }
+
+        .decisions-box {
+            border: 2px solid #000;
+            padding: 15px;
+            background: #fff;
+        }
+
+        .decisions-box h3 {
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .decisions-box .subtitle {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .decision-item {
+            background: #e1bee7;
+            border: 2px solid #8e24aa;
+            padding: 10px;
+            margin: 10px 0;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .bottom-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr 300px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #fff9c4;
+            border: 2px solid #f9a825;
+            padding: 8px 15px;
+            margin: 5px;
+            font-weight: bold;
+        }
+
+        .tag.core {
+            background: #ffccbc;
+            border-color: #d84315;
+        }
+
+        .tag.supporting {
+            background: #b3e5fc;
+            border-color: #0277bd;
+        }
+
+        .tag.compliance {
+            background: #c5e1a5;
+            border-color: #558b2f;
+        }
+
+        .role-tag {
+            background: #e1bee7;
+            border: 2px solid #8e24aa;
+            padding: 8px 15px;
+            margin: 5px;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .evolution-text {
+            margin-top: 10px;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        @media (max-width: 1200px) {
+
+            .top-section,
+            .middle-section,
+            .bottom-section {
+                grid-template-columns: 1fr;
+            }
+
+            .section,
+            .communication-section {
+                border-right: none;
+                border-bottom: 3px solid #000;
+            }
+
+            .center-column {
+                border-right: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" onclick="showCanvas('recepcion')">📥 Recepción</div>
+            <div class="tab" onclick="showCanvas('inventario')">📦 Inventario</div>
+            <div class="tab" onclick="showCanvas('ventas')">📊 Ventas</div>
+            <div class="tab" onclick="showCanvas('cliente')">👤 Cliente</div>
+            <div class="tab" onclick="showCanvas('financiacion')">💳 Financiación</div>
+            <div class="tab" onclick="showCanvas('finanzas')">💰 Finanzas</div>
+            <div class="tab" onclick="showCanvas('entrega')">🚚 Entrega</div>
+            <div class="tab" onclick="showCanvas('postventa')">🔧 Postventa</div>
+        </div>
+
+        <!-- RECEPCIÓN CANVAS -->
+        <div id="recepcion" class="canvas active">
+            <div class="canvas-header">
+                <h1>Nombre: Recepción</h1>
+                <span class="version">V5 | concesionario/recepcion-context</span>
+            </div>
+
+            <div class="top-section">
+                <div class="section">
+                    <div class="section-title">Propósito</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Registrar la llegada de vehículos al concesionario (nuevos, consignación, trade-in)</li>
+                            <li>Ejecutar check-in básico y validación documental</li>
+                            <li>Realizar inspección técnica y de apariencia completa</li>
+                            <li>Decidir: venta directa, reparación o rechazo del vehículo</li>
+                            <li>Generar checklist de inspección y presupuesto de reparación</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Clasificación Estratégica</div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Dominio</strong><br>
+                        <span class="tag supporting">soporte</span>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Modelo de Negocio</strong><br>
+                        <span class="tag">operaciones</span>
+                        <span class="tag">logística</span>
+                        <span class="tag compliance">calidad</span>
+                    </div>
+                    <div>
+                        <strong>Evolución</strong><br>
+                        <span class="tag">construcción personalizada</span>
+                        <div class="evolution-text">Evoluciona con procesos logísticos, automatización de recepción y
+                            reglas de garantía</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Roles de Dominio</div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Tipos de Rol</strong>
+                    </div>
+                    <div>
+                        <span class="role-tag">contexto gateway</span>
+                        <span class="role-tag">contexto de integración</span>
+                        <span class="role-tag">contexto de análisis</span>
+                    </div>
+                    <div class="evolution-text" style="margin-top: 15px;">
+                        Punto de entrada con proveedores. Define estado del vehículo antes de ventas
+                    </div>
+                </div>
+            </div>
+
+            <div class="middle-section">
+                <div class="communication-section">
+                    <div class="section-title">Comunicación Entrante</div>
+                    <div style="margin-top: 20px;">
+                        <div style="color: #999; font-size: 0.9em; margin-bottom: 10px;"><strong>Colaborador</strong>
+                        </div>
+                        <div class="collaborator">Proveedor / Logística</div>
+                        <div style="color: #999; font-size: 0.9em; margin: 15px 0 10px 0;"><strong>Mensajes</strong>
+                        </div>
+                        <div class="message event">AvisoEnvío</div>
+                        <div class="message command">NotificarEntrega</div>
+                    </div>
+                </div>
+
+                <div class="center-column">
+                    <div class="ubiquitous-box">
+                        <h3>Lenguaje Ubicuo</h3>
+                        <div class="subtitle">Terminología específica del contexto</div>
+                        <div>
+                            <span class="term">Recepción</span>
+                            <span class="term">IngresoVehículo</span>
+                            <span class="term">Lote</span>
+                            <span class="term">VIN</span>
+                            <span class="term">Check-in</span>
+                            <span class="term">Trade-in</span>
+                            <span class="term">Inspección</span>
+                            <span class="term">ChecklistInspección</span>
+                            <span class="term">EstadoVehículo</span>
+                            <span class="term">OrdenTrabajo</span>
+                            <span class="term">Apto</span>
+                            <span class="term">RequiereReparación</span>
+                        </div>
+                    </div>
+
+                    <div class="decisions-box">
+                        <h3>Decisiones de Negocio</h3>
+                        <div class="subtitle">Reglas clave de negocio, políticas y decisiones</div>
+                        <div class="decision-item">¿Aceptar vehículo en consignación o devolverlo?</div>
+                        <div class="decision-item">¿Reparar antes de vender o vender "tal cual" con descuento?</div>
+                        <div class="decision-item">Definir garantía aplicable según estado</div>
+                    </div>
+                </div>
+
+                <div class="communication-section">
+                    <div class="section-title">Comunicación Saliente</div>
+                    <div style="margin-top: 20px;">
+                        <div style="color: #999; font-size: 0.9em; margin-bottom: 10px;"><strong>Mensajes</strong></div>
+                        <div class="message event">VehículoRecepcionado</div>
+                        <div class="message event">InspecciónCompletada</div>
+                        <div class="message event">VehículoAptoParaVenta</div>
+                        <div class="message event">ReparaciónRequerida</div>
+                        <div style="color: #999; font-size: 0.9em; margin: 15px 0 10px 0;"><strong>Colaborador</strong>
+                        </div>
+                        <div class="collaborator">Inventario</div>
+                        <div class="collaborator">Taller</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-section">
+                <div class="section">
+                    <div class="section-title">Supuestos</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Información del transporte y documentación llega con el vehículo</li>
+                            <li>Hay capacidad de inspección inmediata o programada</li>
+                            <li>Taller y piezas disponibles o hay proveedor externo</li>
+                            <li>Resultados de inspección determinan visibilidad en ventas</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Métricas de Verificación</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Tiempo desde llegada a registro completo</li>
+                            <li>% vehículos con documentación incompleta</li>
+                            <li>Tasa de rechazo en recepción</li>
+                            <li>Tiempo de inspección por vehículo</li>
+                            <li>% vehículos que requieren reparación</li>
+                            <li>Exactitud de evaluación (incidencias post-venta)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Preguntas Abiertas</div>
+                    <div class="section-content">
+                        ¿Integrar con sistemas de tracking GPS?<br><br>
+                        ¿Automatizar check-in con QR/RFID?<br><br>
+                        ¿Usar IA para detectar daños?
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- INSPECCIÓN CANVAS -->
+        <div id="inspeccion" class="canvas">
+            <div class="canvas-header">
+                <h1>Name: Inspección / Calidad</h1>
+                <span class="version">V5 | concesionario/inspeccion-context</span>
+            </div>
+
+            <div class="top-section">
+                <div class="section">
+                    <div class="section-title">Purpose</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Realizar inspección técnica y de apariencia para decidir: venta directa, reparación o
+                                rechazo</li>
+                            <li>Generar checklist y presupuesto de reparación</li>
+                            <li>Determinar estado del vehículo antes de entrar a ventas</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Strategic Classification</div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Domain</strong><br>
+                        <span class="tag supporting">supporting</span>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Business Model</strong><br>
+                        <span class="tag compliance">quality</span>
+                    </div>
+                    <div>
+                        <strong>Evolution</strong><br>
+                        <span class="tag">custom built</span>
+                        <div class="evolution-text">Puede evolucionar con reglas de garantía más complejas</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Domain Roles</div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Role Types</strong>
+                    </div>
+                    <div>
+                        <span class="role-tag">analysis context</span>
+                        <span class="role-tag">draft context</span>
+                    </div>
+                    <div class="evolution-text" style="margin-top: 15px;">
+                        Define estado del vehículo antes de entrar a ventas
+                    </div>
+                </div>
+            </div>
+
+            <div class="middle-section">
+                <div class="communication-section">
+                    <div class="section-title">Inbound Communication</div>
+                    <div style="margin-top: 20px;">
+                        <div style="color: #999; font-size: 0.9em; margin-bottom: 10px;"><strong>Collaborator</strong>
+                        </div>
+                        <div class="collaborator">Recepción</div>
+                        <div style="color: #999; font-size: 0.9em; margin: 15px 0 10px 0;"><strong>Messages</strong>
+                        </div>
+                        <div class="message event">VehículoRecepcionado</div>
+                    </div>
+                </div>
+
+                <div class="center-column">
+                    <div class="ubiquitous-box">
+                        <h3>Ubiquitous Language</h3>
+                        <div class="subtitle">Context-specific domain terminology</div>
+                        <div>
+                            <span class="term">Inspección</span>
+                            <span class="term">ChecklistInspección</span>
+                            <span class="term">EstadoVehículo</span>
+                            <span class="term">OrdenTrabajo</span>
+                            <span class="term">Apto</span>
+                            <span class="term">RequiereReparación</span>
+                        </div>
+                    </div>
+
+                    <div class="decisions-box">
+                        <h3>Business Decisions</h3>
+                        <div class="subtitle">Key business rules, policies, and decisions</div>
+                        <div class="decision-item">Reparar antes de ofrecer o vender "tal cual" (precio reducido)</div>
+                        <div class="decision-item">Definir garantía aplicable</div>
+                    </div>
+                </div>
+
+                <div class="communication-section">
+                    <div class="section-title">Outbound Communication</div>
+                    <div style="margin-top: 20px;">
+                        <div style="color: #999; font-size: 0.9em; margin-bottom: 10px;"><strong>Messages</strong></div>
+                        <div class="message event">InspecciónCompletada</div>
+                        <div class="message event">ReparacionesRequeridas</div>
+                        <div style="color: #999; font-size: 0.9em; margin: 15px 0 10px 0;"><strong>Collaborator</strong>
+                        </div>
+                        <div class="collaborator">Inventario</div>
+                        <div class="collaborator">Taller</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-section">
+                <div class="section">
+                    <div class="section-title">Assumptions</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Taller y piezas están disponibles o hay proveedor externo</li>
+                            <li>Resultados de inspección son determinantes para visibilidad en ventas</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Verification Metrics</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Tiempo de inspección por vehículo</li>
+                            <li>% vehículos que requieren reparación</li>
+                            <li>Exactitud de evaluación (incidencias post-venta)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Open Questions</div>
+                    <div class="section-content">
+                        ¿Usar IA para detectar daños automáticamente?<br><br>
+                        ¿Certificaciones de terceros?
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- INVENTARIO CANVAS -->
+        <div id="inventario" class="canvas">
+            <div class="canvas-header">
+                <h1>Name: Inventario</h1>
+                <span class="version">V5 | concesionario/inventario-context</span>
+            </div>
+
+            <div class="top-section">
+                <div class="section">
+                    <div class="section-title">Purpose</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Mantener el catálogo físico: vehículos listos, en reparación, reservados</li>
+                            <li>Controlar stock de lujos/partes</li>
+                            <li>Source of Truth para disponibilidad física</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Strategic Classification</div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Domain</strong><br>
+                        <span class="tag supporting">supporting</span>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Business Model</strong><br>
+                        <span class="tag compliance">compliance</span>
+                    </div>
+                    <div>
+                        <strong>Evolution</strong><br>
+                        <span class="tag">custom built</span>
+                        <div class="evolution-text">Cambios en logística y reposición de stock</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Domain Roles</div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Role Types</strong>
+                    </div>
+                    <div>
+                        <span class="role-tag">gateway context</span>
+                    </div>
+                    <div class="evolution-text" style="margin-top: 15px;">
+                        Valida y autoriza pedidos desde Ventas
+                    </div>
+                </div>
+            </div>
+
+            <div class="middle-section">
+                <div class="communication-section">
+                    <div class="section-title">Inbound Communication</div>
+                    <div style="margin-top: 20px;">
+                        <div style="color: #999; font-size: 0.9em; margin-bottom: 10px;"><strong>Collaborator</strong>
+                        </div>
+                        <div class="collaborator">Recepción</div>
+                        <div class="collaborator">Inspección</div>
+                        <div class="collaborator">Ventas</div>
+                        <div style="color: #999; font-size: 0.9em; margin: 15px 0 10px 0;"><strong>Messages</strong>
+                        </div>
+                        <div class="message event">VehículoRecepcionado</div>
+                        <div class="message event">InspecciónCompletada</div>
+                        <div class="message">ConsultarDisponibilidad</div>
+                        <div class="message command">ReservarStock</div>
+                    </div>
+                </div>
+
+                <div class="center-column">
+                    <div class="ubiquitous-box">
+                        <h3>Ubiquitous Language</h3>
+                        <div class="subtitle">Context-specific domain terminology</div>
+                        <div>
+                            <span class="term">Stock</span>
+                            <span class="term">EstadoStock</span>
+                            <span class="term">Disponible</span>
+                            <span class="term">Reservado</span>
+                            <span class="term">EnReparación</span>
+                            <span class="term">Ubicación</span>
+                        </div>
+                    </div>
+
+                    <div class="decisions-box">
+                        <h3>Business Decisions</h3>
+                        <div class="subtitle">Key business rules, policies, and decisions</div>
+                        <div class="decision-item">Reservar vehículo para una cotización/venta</div>
+                        <div class="decision-item">Mover vehículos a "no disponible" si están bajo garantía/trabajo
+                        </div>
+                    </div>
+                </div>
+
+                <div class="communication-section">
+                    <div class="section-title">Outbound Communication</div>
+                    <div style="margin-top: 20px;">
+                        <div style="color: #999; font-size: 0.9em; margin-bottom: 10px;"><strong>Messages</strong></div>
+                        <div class="message event">VehículoListoParaVenta</div>
+                        <div class="message event">ReservaConfirmada</div>
+                        <div class="message event">StockReducido</div>
+                        <div class="message event">VehículoListoParaEntrega</div>
+                        <div style="color: #999; font-size: 0.9em; margin: 15px 0 10px 0;"><strong>Collaborator</strong>
+                        </div>
+                        <div class="collaborator">Ventas</div>
+                        <div class="collaborator">Entrega</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-section">
+                <div class="section">
+                    <div class="section-title">Assumptions</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Contabilidad física vs. digital sincronizada</li>
+                            <li>Stock mínimo gestionado externamente</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Verification Metrics</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Concordancia stock físico vs sistema (% discrepancia)</li>
+                            <li>Tiempo de actualización de estados</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Open Questions</div>
+                    <div class="section-content">
+                        ¿Implementar RFID para tracking?<br><br>
+                        ¿Sistema de alertas de stock bajo?
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VENTAS CANVAS -->
+        <div id="ventas" class="canvas">
+            <div class="canvas-header">
+                <h1>Name: Ventas</h1>
+                <span class="version">V5 | concesionario/ventas-context</span>
+            </div>
+
+            <div class="top-section">
+                <div class="section">
+                    <div class="section-title">Purpose</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Interactuar con el cliente, configurar y cotizar vehículos</li>
+                            <li>Gestionar trade-ins, generar la venta y coordinar entrega</li>
+                            <li>Propuesta de valor del negocio</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Strategic Classification</div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Domain</strong><br>
+                        <span class="tag core">core</span>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Business Model</strong><br>
+                        <span class="tag">revenue</span>
+                        <span class="tag">engagement</span>
+                    </div>
+                    <div>
+                        <strong>Evolution</strong><br>
+                        <span class="tag">custom built</span>
+                        <div class="evolution-text">Nuevas opciones, promociones, tipos de cotización</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Domain Roles</div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Role Types</strong>
+                    </div>
+                    <div>
+                        <span class="role-tag">core context</span>
+                        <span class="role-tag">analysis context</span>
+                        <span class="role-tag">draft context</span>
+                    </div>
+                    <div class="evolution-text" style="margin-top: 15px;">
+                        Gestiona reglas de negocio de precios, descuentos y negociación
+                    </div>
+                </div>
+            </div>
+
+            <div class="middle-section">
+                <div class="communication-section">
+                    <div class="section-title">Inbound Communication</div>
+                    <div style="margin-top: 20px;">
+                        <div style="color: #999; font-size: 0.9em; margin-bottom: 10px;"><strong>Collaborator</strong>
+                        </div>
+                        <div class="collaborator">Inventario</div>
+                        <div class="collaborator">Financiación</div>
+                        <div class="collaborator">CRM</div>
+                        <div style="color: #999; font-size: 0.9em; margin: 15px 0 10px 0;"><strong>Messages</strong>
+                        </div>
+                        <div class="message event">VehículoListoParaVenta</div>
+                        <div class="message event">AprobaciónCrédito</div>
+                        <div class="message">DatosCliente</div>
+                    </div>
+                </div>
+
+                <div class="center-column">
+                    <div class="ubiquitous-box">
+                        <h3>Ubiquitous Language</h3>
+                        <div class="subtitle">Context-specific domain terminology</div>
+                        <div>
+                            <span class="term">Cliente</span>
+                            <span class="term">Cotización</span>
+                            <span class="term">TradeIn</span>
+                            <span class="term">AutoConfigurado</span>
+                            <span class="term">Reserva</span>
+                            <span class="term">Venta</span>
+                            <span class="term">ContratoVenta</span>
+                        </div>
+                    </div>
+
+                    <div class="decisions-box">
+                        <h3>Business Decisions</h3>
+                        <div class="subtitle">Key business rules, policies, and decisions</div>
+                        <div class="decision-item">Aceptar trade-in y ajustar precio</div>
+                        <div class="decision-item">Ofrecer financiación / promociones</div>
+                        <div class="decision-item">Reglas de descuento/comisión</div>
+                    </div>
+                </div>
+
+                <div class="communication-section">
+                    <div class="section-title">Outbound Communication</div>
+                    <div style="margin-top: 20px;">
+                        <div style="color: #999; font-size: 0.9em; margin-bottom: 10px;"><strong>Messages</strong></div>
+                        <div class="message event">CotizaciónGenerada</div>
+                        <div class="message command">ReservarStock</div>
+                        <div class="message command">SolicitudCrédito</div>
+                        <div class="message event">VentaConfirmada</div>
+                        <div style="color: #999; font-size: 0.9em; margin: 15px 0 10px 0;"><strong>Collaborator</strong>
+                        </div>
+                        <div class="collaborator">Inventario</div>
+                        <div class="collaborator">Financiación</div>
+                        <div class="collaborator">Finanzas</div>
+                        <div class="collaborator">Entrega</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-section">
+                <div class="section">
+                    <div class="section-title">Assumptions</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Datos técnicos y precio base correctos</li>
+                            <li>Inventario puede reservar</li>
+                            <li>Financiación es opcional</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Verification Metrics</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Tasa conversión cotización → venta</li>
+                            <li>Margen promedio por venta</li>
+                            <li>Tiempo medio para cerrar venta</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Open Questions</div>
+                    <div class="section-content">
+                        ¿Venta 100% online sin visita?<br><br>
+                        ¿Test drive virtual con VR?
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CLIENTE/CRM CANVAS -->
+        <div id="cliente" class="canvas">
+            <div class="canvas-header">
+                <h1>Name: Cliente</h1>
+                <span class="version">V5 | concesionario/crm-context</span>
+            </div>
+
+            <div class="top-section">
+                <div class="section">
+                    <div class="section-title">Purpose</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Gestionar información del cliente, historial de compras</li>
+                            <li>Contactos, preferencias y score/solicitudes de crédito</li>
+                            <li>Sistema de registro maestro para clientes</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Strategic Classification</div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Domain</strong><br>
+                        <span class="tag supporting">supporting</span>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Business Model</strong><br>
+                        <span class="tag">customer engagement</span>
+                    </div>
+                    <div>
+                        <strong>Evolution</strong><br>
+                        <span class="tag">product</span>
+                        <div class="evolution-text">Puede ser generic si se integra con otros productos</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Domain Roles</div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Role Types</strong>
+                    </div>
+                    <div>
+                        <span class="role-tag">system of record</span>
+                    </div>
+                    <div class="evolution-text" style="margin-top: 15px;">
+                        Referencia principal para datos de cliente
+                    </div>
+                </div>
+            </div>
+
+            <div class="middle-section">
+                <div class="communication-section">
+                    <div class="section-title">Inbound Communication</div>
+                    <div style="margin-top: 20px;">
+                        <div style="color: #999; font-size: 0.9em; margin-bottom: 10px;"><strong>Collaborator</strong>
+                        </div>
+                        <div class="collaborator">Ventas</div>
+                        <div class="collaborator">UI / Forms</div>
+                        <div style="color: #999; font-size: 0.9em; margin: 15px 0 10px 0;"><strong>Messages</strong>
+                        </div>
+                        <div class="message command">CrearCliente</div>
+                        <div class="message command">ActualizarDatos</div>
+                    </div>
+                </div>
+
+                <div class="center-column">
+                    <div class="ubiquitous-box">
+                        <h3>Ubiquitous Language</h3>
+                        <div class="subtitle">Context-specific domain terminology</div>
+                        <div>
+                            <span class="term">Cliente</span>
+                            <span class="term">PerfilCliente</span>
+                            <span class="term">HistorialCompra</span>
+                            <span class="term">Consentimiento</span>
+                            <span class="term">Contacto</span>
+                        </div>
+                    </div>
+
+                    <div class="decisions-box">
+                        <h3>Business Decisions</h3>
+                        <div class="subtitle">Key business rules, policies, and decisions</div>
+                        <div class="decision-item">¿Aplicar política de fidelidad?</div>
+                        <div class="decision-item">¿Ofrecer préstamos preferenciales?</div>
+                    </div>
+                </div>
+
+                <div class="communication-section">
+                    <div class="section-title">Outbound Communication</div>
+                    <div style="margin-top: 20px;">
+                        <div style="color: #999; font-size: 0.9em; margin-bottom: 10px;"><strong>Messages</strong></div>
+                        <div class="message">DatosCliente</div>
+                        <div class="message event">ClienteActualizado</div>
+                        <div style="color: #999; font-size: 0.9em; margin: 15px 0 10px 0;"><strong>Collaborator</strong>
+                        </div>
+                        <div class="collaborator">Ventas</div>
+                        <div class="collaborator">Financiación</div>
+                        <div class="collaborator">Marketing</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-section">
+                <div class="section">
+                    <div class="section-title">Assumptions</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Permisos de tratamiento de datos (GDPR/legislación local)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Verification Metrics</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Calidad de datos (% datos obligatorios completos)</li>
+                            <li>Tiempo medio de respuesta a consultas de CRM</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Open Questions</div>
+                    <div class="section-content">
+                        ¿Integrar con redes sociales?<br><br>
+                        ¿Sistema de referidos?
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FINANCIACIÓN CANVAS -->
+        <div id="financiacion" class="canvas">
+            <div class="canvas-header">
+                <h1>Name: Financiación / Crédito</h1>
+                <span class="version">V5 | concesionario/financiacion-context</span>
+            </div>
+
+            <div class="top-section">
+                <div class="section">
+                    <div class="section-title">Purpose</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Evaluar solicitudes de crédito/financiación</li>
+                            <li>Calcular cuotas y gestionar contratos de crédito</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Strategic Classification</div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Domain</strong><br>
+                        <span class="tag supporting">supporting</span>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Business Model</strong><br>
+                        <span class="tag">revenue</span>
+                    </div>
+                    <div>
+                        <strong>Evolution</strong><br>
+                        <span class="tag">custom built</span>
+                        <div class="evolution-text">Puede ser Core si el concesionario ofrece crédito propio</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Domain Roles</div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Role Types</strong>
+                    </div>
+                    <div>
+                        <span class="role-tag">separate business context</span>
+                    </div>
+                    <div class="evolution-text" style="margin-top: 15px;">
+                        Lógica crediticia compleja independiente
+                    </div>
+                </div>
+            </div>
+
+            <div class="middle-section">
+                <div class="communication-section">
+                    <div class="section-title">Inbound Communication</div>
+                    <div style="margin-top: 20px;">
+                        <div style="color: #999; font-size: 0.9em; margin-bottom: 10px;"><strong>Collaborator</strong>
+                        </div>
+                        <div class="collaborator">Ventas</div>
+                        <div class="collaborator">Cliente</div>
+                        <div style="color: #999; font-size: 0.9em; margin: 15px 0 10px 0;"><strong>Messages</strong>
+                        </div>
+                        <div class="message command">SolicitudCrédito</div>
+                    </div>
+                </div>
+
+                <div class="center-column">
+                    <div class="ubiquitous-box">
+                        <h3>Ubiquitous Language</h3>
+                        <div class="subtitle">Context-specific domain terminology</div>
+                        <div>
+                            <span class="term">SolicitudCrédito</span>
+                            <span class="term">Score</span>
+                            <span class="term">Plazo</span>
+                            <span class="term">Cuota</span>
+                            <span class="term">TasaInterés</span>
+                            <span class="term">Aprobación</span>
+                        </div>
+                    </div>
+
+                    <div class="decisions-box">
+                        <h3>Business Decisions</h3>
+                        <div class="subtitle">Key business rules, policies, and decisions</div>
+                        <div class="decision-item">Criterios de aprobación (scoring, historial, entrada)</div>
+                        <div class="decision-item">Ofrecer plazos/tasas especiales</div>
+                    </div>
+                </div>
+
+                <div class="communication-section">
+                    <div class="section-title">Outbound Communication</div>
+                    <div style="margin-top: 20px;">
+                        <div style="color: #999; font-size: 0.9em; margin-bottom: 10px;"><strong>Messages</strong></div>
+                        <div class="message event">AprobaciónCrédito</div>
+                        <div class="message event">RechazoCrédito</div>
+                        <div class="message event">ContratoCrédito</div>
+                        <div style="color: #999; font-size: 0.9em; margin: 15px 0 10px 0;"><strong>Collaborator</strong>
+                        </div>
+                        <div class="collaborator">Ventas</div>
+                        <div class="collaborator">Finanzas</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-section">
+                <div class="section">
+                    <div class="section-title">Assumptions</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Integración con bureaus de crédito</li>
+                            <li>Uso de scoring interno</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Verification Metrics</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>% solicitudes aprobadas</li>
+                            <li>Tiempo medio de evaluación</li>
+                            <li>Morosidad esperada (%)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Open Questions</div>
+                    <div class="section-content">
+                        ¿Ofrecer seguros en el paquete?<br><br>
+                        ¿Pre-aprobación automática?
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FINANZAS CANVAS -->
+        <div id="finanzas" class="canvas">
+            <div class="canvas-header">
+                <h1>Name: Finanzas</h1>
+                <span class="version">V5 | concesionario/finanzas-context</span>
+            </div>
+
+            <div class="top-section">
+                <div class="section">
+                    <div class="section-title">Purpose</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Procesar cobros (efectivo, tarjeta, crédito)</li>
+                            <li>Emitir facturas y registrar contabilidad</li>
+                            <li>Cumplimiento fiscal y regulatorio</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Strategic Classification</div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Domain</strong><br>
+                        <span class="tag supporting">supporting</span>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Business Model</strong><br>
+                        <span class="tag compliance">compliance</span>
+                    </div>
+                    <div>
+                        <strong>Evolution</strong><br>
+                        <span class="tag">custom built</span>
+                        <div class="evolution-text">Nuevos medios de pago, requisitos legales</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Domain Roles</div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Role Types</strong>
+                    </div>
+                    <div>
+                        <span class="role-tag">execution context</span>
+                        <span class="role-tag">anti-corruption layer</span>
+                    </div>
+                    <div class="evolution-text" style="margin-top: 15px;">
+                        Ejecuta operaciones críticas posteriores a la venta
+                    </div>
+                </div>
+            </div>
+
+            <div class="middle-section">
+                <div class="communication-section">
+                    <div class="section-title">Inbound Communication</div>
+                    <div style="margin-top: 20px;">
+                        <div style="color: #999; font-size: 0.9em; margin-bottom: 10px;"><strong>Collaborator</strong>
+                        </div>
+                        <div class="collaborator">Ventas</div>
+                        <div class="collaborator">Financiación</div>
+                        <div style="color: #999; font-size: 0.9em; margin: 15px 0 10px 0;"><strong>Messages</strong>
+                        </div>
+                        <div class="message event">VentaConfirmada</div>
+                        <div class="message event">AprobaciónCrédito</div>
+                    </div>
+                </div>
+
+                <div class="center-column">
+                    <div class="ubiquitous-box">
+                        <h3>Ubiquitous Language</h3>
+                        <div class="subtitle">Context-specific domain terminology</div>
+                        <div>
+                            <span class="term">Pago</span>
+                            <span class="term">Factura</span>
+                            <span class="term">Comprobante</span>
+                            <span class="term">MedioPago</span>
+                            <span class="term">RefTransacción</span>
+                        </div>
+                    </div>
+
+                    <div class="decisions-box">
+                        <h3>Business Decisions</h3>
+                        <div class="subtitle">Key business rules, policies, and decisions</div>
+                        <div class="decision-item">¿Aceptar pago aplazado?</div>
+                        <div class="decision-item">¿Emitir factura pro-forma?</div>
+                        <div class="decision-item">Cumplir con normativas fiscales</div>
+                    </div>
+                </div>
+
+                <div class="communication-section">
+                    <div class="section-title">Outbound Communication</div>
+                    <div style="margin-top: 20px;">
+                        <div style="color: #999; font-size: 0.9em; margin-bottom: 10px;"><strong>Messages</strong></div>
+                        <div class="message event">PagoProcesado</div>
+                        <div class="message event">FacturaGenerada</div>
+                        <div class="message event">ComprobantePago</div>
+                        <div style="color: #999; font-size: 0.9em; margin: 15px 0 10px 0;"><strong>Collaborator</strong>
+                        </div>
+                        <div class="collaborator">Entrega</div>
+                        <div class="collaborator">Cliente</div>
+                        <div class="collaborator">Ventas</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-section">
+                <div class="section">
+                    <div class="section-title">Assumptions</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Integraciones seguras con pasarelas</li>
+                            <li>Cumplimiento fiscal garantizado</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Verification Metrics</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>% transacciones exitosas</li>
+                            <li>Tiempo para emisión de factura</li>
+                            <li>Cumplimiento legal de facturas</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Open Questions</div>
+                    <div class="section-content">
+                        ¿Integrar con más pasarelas?<br><br>
+                        ¿Soporte para criptomonedas?
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ENTREGA CANVAS -->
+        <div id="entrega" class="canvas">
+            <div class="canvas-header">
+                <h1>Name: Entrega al Cliente</h1>
+                <span class="version">V5 | concesionario/entrega-context</span>
+            </div>
+
+            <div class="top-section">
+                <div class="section">
+                    <div class="section-title">Purpose</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Coordinar entrega física del vehículo al cliente</li>
+                            <li>Checklist de entrega y documentación legal</li>
+                            <li>Garantizar experiencia de entrega satisfactoria</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Strategic Classification</div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Domain</strong><br>
+                        <span class="tag supporting">supporting</span>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Business Model</strong><br>
+                        <span class="tag">operations</span>
+                    </div>
+                    <div>
+                        <strong>Evolution</strong><br>
+                        <span class="tag">custom built</span>
+                        <div class="evolution-text">Automatización y experiencia del cliente</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Domain Roles</div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Role Types</strong>
+                    </div>
+                    <div>
+                        <span class="role-tag">execution context</span>
+                        <span class="role-tag">integration context</span>
+                    </div>
+                    <div class="evolution-text" style="margin-top: 15px;">
+                        Integración con Inventario y Finanzas
+                    </div>
+                </div>
+            </div>
+
+            <div class="middle-section">
+                <div class="communication-section">
+                    <div class="section-title">Inbound Communication</div>
+                    <div style="margin-top: 20px;">
+                        <div style="color: #999; font-size: 0.9em; margin-bottom: 10px;"><strong>Collaborator</strong>
+                        </div>
+                        <div class="collaborator">Ventas</div>
+                        <div class="collaborator">Finanzas</div>
+                        <div class="collaborator">Inventario</div>
+                        <div style="color: #999; font-size: 0.9em; margin: 15px 0 10px 0;"><strong>Messages</strong>
+                        </div>
+                        <div class="message event">VentaConfirmada</div>
+                        <div class="message event">PagoProcesado</div>
+                        <div class="message event">VehículoListoParaEntrega</div>
+                    </div>
+                </div>
+
+                <div class="center-column">
+                    <div class="ubiquitous-box">
+                        <h3>Ubiquitous Language</h3>
+                        <div class="subtitle">Context-specific domain terminology</div>
+                        <div>
+                            <span class="term">ChecklistEntrega</span>
+                            <span class="term">DocumentaciónEntrega</span>
+                            <span class="term">FechaEntrega</span>
+                            <span class="term">ResponsableEntrega</span>
+                        </div>
+                    </div>
+
+                    <div class="decisions-box">
+                        <h3>Business Decisions</h3>
+                        <div class="subtitle">Key business rules, policies, and decisions</div>
+                        <div class="decision-item">¿Liberar vehículo sin pago completo?</div>
+                        <div class="decision-item">Servicios adicionales al entregar (inspección final, accesorios)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="communication-section">
+                    <div class="section-title">Outbound Communication</div>
+                    <div style="margin-top: 20px;">
+                        <div style="color: #999; font-size: 0.9em; margin-bottom: 10px;"><strong>Messages</strong></div>
+                        <div class="message event">EntregaRealizada</div>
+                        <div style="color: #999; font-size: 0.9em; margin: 15px 0 10px 0;"><strong>Collaborator</strong>
+                        </div>
+                        <div class="collaborator">CRM</div>
+                        <div class="collaborator">Postventa</div>
+                        <div class="collaborator">Contabilidad</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-section">
+                <div class="section">
+                    <div class="section-title">Assumptions</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Vehículo está físicamente en estado entregable</li>
+                            <li>Documentación legal completa y verificada</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Verification Metrics</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>% entregas a tiempo</li>
+                            <li>Incidencias en entrega (documentación, discrepancias)</li>
+                            <li>Satisfacción del cliente en entrega</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Open Questions</div>
+                    <div class="section-content">
+                        ¿Entrega a domicilio?<br><br>
+                        ¿Video tutorial personalizado?
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- POSTVENTA CANVAS -->
+        <div id="postventa" class="canvas">
+            <div class="canvas-header">
+                <h1>Name: Postventa / Taller / Mantenimientos</h1>
+                <span class="version">V5 | concesionario/postventa-context</span>
+            </div>
+
+            <div class="top-section">
+                <div class="section">
+                    <div class="section-title">Purpose</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Gestionar servicios, órdenes de trabajo y mantenimientos programados</li>
+                            <li>Administrar garantías post-venta</li>
+                            <li>Generar ingresos recurrentes a través de servicios</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Strategic Classification</div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Domain</strong><br>
+                        <span class="tag supporting">supporting</span>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Business Model</strong><br>
+                        <span class="tag">revenue</span>
+                        <span class="tag">retention</span>
+                    </div>
+                    <div>
+                        <strong>Evolution</strong><br>
+                        <span class="tag">custom built</span>
+                        <div class="evolution-text">Fuente de ingresos recurrentes, fidelización</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Domain Roles</div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Role Types</strong>
+                    </div>
+                    <div>
+                        <span class="role-tag">service context</span>
+                    </div>
+                    <div class="evolution-text" style="margin-top: 15px;">
+                        Provee servicios al cliente, vinculado a CRM y Vehículos
+                    </div>
+                </div>
+            </div>
+
+            <div class="middle-section">
+                <div class="communication-section">
+                    <div class="section-title">Inbound Communication</div>
+                    <div style="margin-top: 20px;">
+                        <div style="color: #999; font-size: 0.9em; margin-bottom: 10px;"><strong>Collaborator</strong>
+                        </div>
+                        <div class="collaborator">Entrega</div>
+                        <div class="collaborator">CRM</div>
+                        <div class="collaborator">Cliente</div>
+                        <div style="color: #999; font-size: 0.9em; margin: 15px 0 10px 0;"><strong>Messages</strong>
+                        </div>
+                        <div class="message event">EntregaRealizada</div>
+                        <div class="message command">SolicitudServicio</div>
+                    </div>
+                </div>
+
+                <div class="center-column">
+                    <div class="ubiquitous-box">
+                        <h3>Ubiquitous Language</h3>
+                        <div class="subtitle">Context-specific domain terminology</div>
+                        <div>
+                            <span class="term">OrdenServicio</span>
+                            <span class="term">Taller</span>
+                            <span class="term">Garantía</span>
+                            <span class="term">PlanMantenimiento</span>
+                            <span class="term">Cita</span>
+                        </div>
+                    </div>
+
+                    <div class="decisions-box">
+                        <h3>Business Decisions</h3>
+                        <div class="subtitle">Key business rules, policies, and decisions</div>
+                        <div class="decision-item">Cobro en garantía vs cobro normal</div>
+                        <div class="decision-item">Prioridad de turnos en taller</div>
+                    </div>
+                </div>
+
+                <div class="communication-section">
+                    <div class="section-title">Outbound Communication</div>
+                    <div style="margin-top: 20px;">
+                        <div style="color: #999; font-size: 0.9em; margin-bottom: 10px;"><strong>Messages</strong></div>
+                        <div class="message event">ServicioProgramado</div>
+                        <div class="message event">ServicioCompletado</div>
+                        <div style="color: #999; font-size: 0.9em; margin: 15px 0 10px 0;"><strong>Collaborator</strong>
+                        </div>
+                        <div class="collaborator">CRM</div>
+                        <div class="collaborator">Ventas</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-section">
+                <div class="section">
+                    <div class="section-title">Assumptions</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Historial del vehículo (VIN) disponible</li>
+                            <li>Capacidad de taller suficiente</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Verification Metrics</div>
+                    <div class="section-content">
+                        <ul>
+                            <li>Tiempo de reparación promedio</li>
+                            <li>Satisfacción postventa</li>
+                            <li>% órdenes cubiertas por garantía</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Open Questions</div>
+                    <div class="section-content">
+                        ¿Mantenimiento predictivo con IoT?<br><br>
+                        ¿Paquetes de mantenimiento prepagados?
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function showCanvas(context) {
+            document.querySelectorAll('.canvas').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+
+            document.getElementById(context).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>
