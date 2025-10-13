@@ -32,11 +32,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj",
+      "projectUniqueName": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj",
       "projectName": "ConcesionarioDDD.Dominio",
-      "projectPath": "C:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj",
+      "projectPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj",
       "packagesPath": "C:\\Users\\mateo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Dominio\\obj\\",
+      "outputPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Dominio\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mateo\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -51,8 +51,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj": {
-              "projectPath": "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj"
+            "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj": {
+              "projectPath": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj"
             }
           }
         }

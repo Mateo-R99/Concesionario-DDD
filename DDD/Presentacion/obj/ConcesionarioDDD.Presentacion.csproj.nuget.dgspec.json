@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Presentacion\\ConcesionarioDDD.Presentacion.csproj": {}
+    "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Presentacion\\ConcesionarioDDD.Presentacion.csproj": {}
   },
   "projects": {
-    "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Aplicacion\\ConcesionarioDDD.Aplicacion.csproj": {
+    "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Aplicacion\\ConcesionarioDDD.Aplicacion.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Aplicacion\\ConcesionarioDDD.Aplicacion.csproj",
+        "projectUniqueName": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Aplicacion\\ConcesionarioDDD.Aplicacion.csproj",
         "projectName": "ConcesionarioDDD.Aplicacion",
-        "projectPath": "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Aplicacion\\ConcesionarioDDD.Aplicacion.csproj",
+        "projectPath": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Aplicacion\\ConcesionarioDDD.Aplicacion.csproj",
         "packagesPath": "C:\\Users\\mateo\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Aplicacion\\obj\\",
+        "outputPath": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Aplicacion\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mateo\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,11 +26,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj": {
-                "projectPath": "C:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj"
+              "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj": {
+                "projectPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj"
               },
-              "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj": {
-                "projectPath": "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj"
+              "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj": {
+                "projectPath": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj"
               }
             }
           }
@@ -49,6 +49,12 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[11.3.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -69,14 +75,14 @@
         }
       }
     },
-    "C:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj": {
+    "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj",
+        "projectUniqueName": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj",
         "projectName": "ConcesionarioDDD.Dominio",
-        "projectPath": "C:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj",
+        "projectPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj",
         "packagesPath": "C:\\Users\\mateo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Dominio\\obj\\",
+        "outputPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Dominio\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mateo\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -91,8 +97,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj": {
-                "projectPath": "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj"
+              "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj": {
+                "projectPath": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj"
               }
             }
           }
@@ -131,14 +137,14 @@
         }
       }
     },
-    "C:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Infraestructura\\ConcesionarioDDD.Infraestructura.csproj": {
+    "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Infraestructura\\ConcesionarioDDD.Infraestructura.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Infraestructura\\ConcesionarioDDD.Infraestructura.csproj",
+        "projectUniqueName": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Infraestructura\\ConcesionarioDDD.Infraestructura.csproj",
         "projectName": "ConcesionarioDDD.Infraestructura",
-        "projectPath": "C:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Infraestructura\\ConcesionarioDDD.Infraestructura.csproj",
+        "projectPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Infraestructura\\ConcesionarioDDD.Infraestructura.csproj",
         "packagesPath": "C:\\Users\\mateo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Infraestructura\\obj\\",
+        "outputPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Infraestructura\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mateo\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -153,14 +159,14 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Aplicacion\\ConcesionarioDDD.Aplicacion.csproj": {
-                "projectPath": "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Aplicacion\\ConcesionarioDDD.Aplicacion.csproj"
+              "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Aplicacion\\ConcesionarioDDD.Aplicacion.csproj": {
+                "projectPath": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Aplicacion\\ConcesionarioDDD.Aplicacion.csproj"
               },
-              "C:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj": {
-                "projectPath": "C:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj"
+              "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj": {
+                "projectPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj"
               },
-              "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj": {
-                "projectPath": "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj"
+              "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj": {
+                "projectPath": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj"
               }
             }
           }
@@ -215,14 +221,14 @@
         }
       }
     },
-    "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Presentacion\\ConcesionarioDDD.Presentacion.csproj": {
+    "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Presentacion\\ConcesionarioDDD.Presentacion.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Presentacion\\ConcesionarioDDD.Presentacion.csproj",
+        "projectUniqueName": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Presentacion\\ConcesionarioDDD.Presentacion.csproj",
         "projectName": "ConcesionarioDDD.Presentacion",
-        "projectPath": "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Presentacion\\ConcesionarioDDD.Presentacion.csproj",
+        "projectPath": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Presentacion\\ConcesionarioDDD.Presentacion.csproj",
         "packagesPath": "C:\\Users\\mateo\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Presentacion\\obj\\",
+        "outputPath": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Presentacion\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mateo\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -237,14 +243,14 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Aplicacion\\ConcesionarioDDD.Aplicacion.csproj": {
-                "projectPath": "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Aplicacion\\ConcesionarioDDD.Aplicacion.csproj"
+              "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Aplicacion\\ConcesionarioDDD.Aplicacion.csproj": {
+                "projectPath": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Aplicacion\\ConcesionarioDDD.Aplicacion.csproj"
               },
-              "C:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj": {
-                "projectPath": "C:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj"
+              "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj": {
+                "projectPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj"
               },
-              "C:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Infraestructura\\ConcesionarioDDD.Infraestructura.csproj": {
-                "projectPath": "C:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Infraestructura\\ConcesionarioDDD.Infraestructura.csproj"
+              "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Infraestructura\\ConcesionarioDDD.Infraestructura.csproj": {
+                "projectPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Infraestructura\\ConcesionarioDDD.Infraestructura.csproj"
               }
             }
           }
@@ -310,14 +316,14 @@
         }
       }
     },
-    "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj": {
+    "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj",
+        "projectUniqueName": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj",
         "projectName": "ConcesionarioDDD.SharedKernel",
-        "projectPath": "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj",
+        "projectPath": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj",
         "packagesPath": "C:\\Users\\mateo\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\SharedKernel\\obj\\",
+        "outputPath": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mateo\\AppData\\Roaming\\NuGet\\NuGet.Config"

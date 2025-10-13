@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using ConcesionarioDDD.Dominio.Entidades;
+using ConcesionarioDDD.Dominio.Agregados;
 using ConcesionarioDDD.Dominio.ValueObjects;
 
 namespace ConcesionarioDDD.Infraestructura.Persistencia
@@ -16,7 +16,7 @@ namespace ConcesionarioDDD.Infraestructura.Persistencia
             }
         }
 
-        public DbSet<Vehiculo> Vehiculos { get; set; }
+        public DbSet<VehiculoAgregado> Vehiculos { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,9 +29,9 @@ namespace ConcesionarioDDD.Infraestructura.Persistencia
         {
             var vehiculos = new[]
             {
-                new Vehiculo("Toyota", "Corolla", 2024, "Rojo", 25000m),
-                new Vehiculo("Honda", "Civic", 2024, "Azul", 27000m),
-                new Vehiculo("Ford", "Mustang", 2024, "Negro", 45000m)
+                new VehiculoAgregado("Toyota", "Corolla", 2024, "Rojo", 25000m),
+                new VehiculoAgregado("Honda", "Civic", 2024, "Azul", 27000m),
+                new VehiculoAgregado("Ford", "Mustang", 2024, "Negro", 45000m)
             };
 
             Vehiculos.AddRange(vehiculos);

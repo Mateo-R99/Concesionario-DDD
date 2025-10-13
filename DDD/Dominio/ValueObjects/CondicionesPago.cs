@@ -2,9 +2,9 @@ namespace ConcesionarioDDD.Dominio.ValueObjects
 {
     public record CondicionesPago
     {
-        public string Tipo { get; }
-        public int? PlazoPagos { get; }
-        public decimal? MontoInicial { get; }
+        public string Tipo { get; init; }
+        public int? PlazoPagos { get; init; }
+        public decimal? MontoInicial { get; init; }
 
         public CondicionesPago(string tipo, int? plazoPagos = null, decimal? montoInicial = null)
         {

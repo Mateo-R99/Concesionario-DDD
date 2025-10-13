@@ -19,3 +19,25 @@ C:\Users\mateo\Downloads\Sexto Semestre\Arquitectura de software\DDD\Infraestruc
 C:\Users\mateo\Downloads\Sexto Semestre\Arquitectura de software\DDD\Infraestructura\obj\Debug\net8.0\ConcesionarioDDD.Infraestructura.pdb
 C:\Users\mateo\Downloads\Sexto Semestre\Arquitectura de software\DDD\Infraestructura\obj\Debug\net8.0\ConcesionarioDDD.Infraestructura.genruntimeconfig.cache
 C:\Users\mateo\Downloads\Sexto Semestre\Arquitectura de software\DDD\Infraestructura\obj\Debug\net8.0\ref\ConcesionarioDDD.Infraestructura.dll
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\obj\Debug\net8.0\ConcesionarioDDD.Infraestructura.dll
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\obj\Debug\net8.0\refint\ConcesionarioDDD.Infraestructura.dll
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\obj\Debug\net8.0\ConcesionarioDDD.Infraestructura.pdb
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\obj\Debug\net8.0\ConcesionarioDDD.Infraestructura.csproj.AssemblyReference.cache
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\obj\Debug\net8.0\ConcesionarioDDD.Infraestructura.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\obj\Debug\net8.0\ConcesionarioDDD.Infraestructura.AssemblyInfoInputs.cache
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\obj\Debug\net8.0\ConcesionarioDDD.Infraestructura.AssemblyInfo.cs
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\obj\Debug\net8.0\ConcesionarioDDD.Infraestructura.csproj.CoreCompileInputs.cache
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\obj\Debug\net8.0\ConcesionarioDDD.Infraestructura.sourcelink.json
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\bin\Debug\net8.0\ConcesionarioDDD.Infraestructura.deps.json
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\bin\Debug\net8.0\ConcesionarioDDD.Infraestructura.runtimeconfig.json
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\bin\Debug\net8.0\ConcesionarioDDD.Infraestructura.dll
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\bin\Debug\net8.0\ConcesionarioDDD.Infraestructura.pdb
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\bin\Debug\net8.0\ConcesionarioDDD.Aplicacion.dll
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\bin\Debug\net8.0\ConcesionarioDDD.Dominio.dll
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\bin\Debug\net8.0\ConcesionarioDDD.SharedKernel.dll
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\bin\Debug\net8.0\ConcesionarioDDD.Dominio.pdb
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\bin\Debug\net8.0\ConcesionarioDDD.Aplicacion.pdb
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\bin\Debug\net8.0\ConcesionarioDDD.SharedKernel.pdb
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\obj\Debug\net8.0\Concesio.9A1766FA.Up2Date
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\obj\Debug\net8.0\ConcesionarioDDD.Infraestructura.genruntimeconfig.cache
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Infraestructura\obj\Debug\net8.0\ref\ConcesionarioDDD.Infraestructura.dll

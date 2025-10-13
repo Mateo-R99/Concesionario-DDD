@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "GkupP+xrdx4=",
+  "dgSpecHash": "7uXNgTUA9GU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Infraestructura\\ConcesionarioDDD.Infraestructura.csproj",
+  "projectFilePath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Infraestructura\\ConcesionarioDDD.Infraestructura.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\mateo\\.nuget\\packages\\fluentvalidation\\11.11.0\\fluentvalidation.11.11.0.nupkg.sha512",
+    "C:\\Users\\mateo\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.1\\fluentvalidation.aspnetcore.11.3.1.nupkg.sha512",
+    "C:\\Users\\mateo\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.11.0\\fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",
     "C:\\Users\\mateo\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\mateo\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "C:\\Users\\mateo\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\3.3.3\\microsoft.codeanalysis.analyzers.3.3.3.nupkg.sha512",

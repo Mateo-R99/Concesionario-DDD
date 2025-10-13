@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using ConcesionarioDDD.Dominio.Entidades;
-using ConcesionarioDDD.Dominio.Interfaces;
 using ConcesionarioDDD.Aplicacion.DTOs;
+using ConcesionarioDDD.Aplicacion.Commands;
+using ConcesionarioDDD.Aplicacion.Handlers.Interfaces;
+using ConcesionarioDDD.Dominio.Interfaces;
 
 namespace ConcesionarioDDD.Presentacion.Controllers
 {
@@ -10,10 +11,26 @@ namespace ConcesionarioDDD.Presentacion.Controllers
     public class VehiculosController : ControllerBase
     {
         private readonly IVehiculoRepositorio _vehiculoRepositorio;
+        private readonly ICrearVehiculoHandler _crearVehiculoHandler;
+        private readonly IReservarVehiculoHandler _reservarVehiculoHandler;
+        private readonly IAgregarModificacionHandler _agregarModificacionHandler;
+        private readonly IVenderVehiculoHandler _venderVehiculoHandler;
+        private readonly ICancelarReservaHandler _cancelarReservaHandler;
 
-        public VehiculosController(IVehiculoRepositorio vehiculoRepositorio)
+        public VehiculosController(
+            IVehiculoRepositorio vehiculoRepositorio,
+            ICrearVehiculoHandler crearVehiculoHandler,
+            IReservarVehiculoHandler reservarVehiculoHandler,
+            IAgregarModificacionHandler agregarModificacionHandler,
+            IVenderVehiculoHandler venderVehiculoHandler,
+            ICancelarReservaHandler cancelarReservaHandler)
         {
             _vehiculoRepositorio = vehiculoRepositorio;
+            _crearVehiculoHandler = crearVehiculoHandler;
+            _reservarVehiculoHandler = reservarVehiculoHandler;
+            _agregarModificacionHandler = agregarModificacionHandler;
+            _venderVehiculoHandler = venderVehiculoHandler;
+            _cancelarReservaHandler = cancelarReservaHandler;
         }
 
         [HttpGet]
@@ -27,13 +44,13 @@ namespace ConcesionarioDDD.Presentacion.Controllers
                 Modelo = v.Modelo,
                 Año = v.Año,
                 Color = v.Color,
-                PrecioBase = v.PrecioBase,
+                PrecioBase = v.PrecioBase.MontoBase,
                 Estado = v.Estado.ToString(),
                 Modificaciones = v.Modificaciones?.Select(m => new ModificacionDTO
                 {
                     Descripcion = m.Descripcion,
                     Precio = m.Precio
-                }).ToList()
+                }).ToList() ?? new List<ModificacionDTO>()
             });
 
             return Ok(vehiculosDto);
@@ -53,101 +70,91 @@ namespace ConcesionarioDDD.Presentacion.Controllers
                 Modelo = vehiculo.Modelo,
                 Año = vehiculo.Año,
                 Color = vehiculo.Color,
-                PrecioBase = vehiculo.PrecioBase,
+                PrecioBase = vehiculo.PrecioBase.MontoBase,
                 Estado = vehiculo.Estado.ToString(),
                 Modificaciones = vehiculo.Modificaciones?.Select(m => new ModificacionDTO
                 {
                     Descripcion = m.Descripcion,
                     Precio = m.Precio
-                }).ToList()
+                }).ToList() ?? new List<ModificacionDTO>()
             };
 
             return Ok(vehiculoDto);
         }
 
         [HttpPost]
-        public async Task<ActionResult<VehiculoDTO>> CrearVehiculo([FromBody] CrearVehiculoDTO dto)
+        public async Task<ActionResult<Guid>> CrearVehiculo([FromBody] CrearVehiculoDTO dto)
         {
-            var vehiculo = new Vehiculo(dto.Marca, dto.Modelo, dto.Año, dto.Color, dto.PrecioBase);
-            await _vehiculoRepositorio.AgregarAsync(vehiculo);
+            var command = new CrearVehiculoCommand(
+                dto.Marca,
+                dto.Modelo,
+                dto.Año,
+                dto.Color,
+                dto.PrecioBase
+            );
 
-            return CreatedAtAction(nameof(ObtenerPorId), new { id = vehiculo.Id }, vehiculo);
+            var result = await _crearVehiculoHandler.Handle(command);
+
+            if (!result.IsSuccess)
+                return BadRequest(result.Error);
+
+            return CreatedAtAction(nameof(ObtenerPorId), new { id = result.Value }, result.Value);
         }
 
         [HttpPost("{id}/modificaciones")]
         public async Task<IActionResult> AgregarModificacion(Guid id, [FromBody] ModificacionDTO dto)
         {
-            var vehiculo = await _vehiculoRepositorio.ObtenerPorIdAsync(id);
-            if (vehiculo == null)
-                return NotFound();
+            var command = new AgregarModificacionCommand(
+                id,
+                dto.Descripcion,
+                dto.Precio
+            );
 
-            try
-            {
-                vehiculo.AgregarModificacion(dto.Descripcion, dto.Precio);
-                await _vehiculoRepositorio.ActualizarAsync(vehiculo);
-                return Ok();
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var result = await _agregarModificacionHandler.Handle(command);
+
+            if (!result.IsSuccess)
+                return BadRequest(result.Error);
+
+            return Ok();
         }
 
         [HttpPost("reservar/{id}")]
         public async Task<IActionResult> ReservarVehiculo(Guid id)
         {
-            var vehiculo = await _vehiculoRepositorio.ObtenerPorIdAsync(id);
-            if (vehiculo == null)
-                return NotFound();
+            var command = new ReservarVehiculoCommand(id);
 
-            try
-            {
-                vehiculo.MarcarComoReservado();
-                await _vehiculoRepositorio.ActualizarAsync(vehiculo);
-                return Ok();
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var result = await _reservarVehiculoHandler.Handle(command);
+
+            if (!result.IsSuccess)
+                return BadRequest(result.Error);
+
+            return Ok();
         }
 
         [HttpPost("vender/{id}")]
         public async Task<IActionResult> VenderVehiculo(Guid id)
         {
-            var vehiculo = await _vehiculoRepositorio.ObtenerPorIdAsync(id);
-            if (vehiculo == null)
-                return NotFound();
+            var command = new VenderVehiculoCommand(id);
 
-            try
-            {
-                vehiculo.MarcarComoVendido();
-                await _vehiculoRepositorio.ActualizarAsync(vehiculo);
-                return Ok();
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var result = await _venderVehiculoHandler.Handle(command);
+
+            if (!result.IsSuccess)
+                return BadRequest(result.Error);
+
+            return Ok(new { PrecioFinal = result.Value });
         }
 
         [HttpPost("cancelar-reserva/{id}")]
         public async Task<IActionResult> CancelarReserva(Guid id)
         {
-            var vehiculo = await _vehiculoRepositorio.ObtenerPorIdAsync(id);
-            if (vehiculo == null)
-                return NotFound();
+            var command = new CancelarReservaCommand(id);
 
-            try
-            {
-                vehiculo.CancelarReserva();
-                await _vehiculoRepositorio.ActualizarAsync(vehiculo);
-                return Ok();
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var result = await _cancelarReservaHandler.Handle(command);
+
+            if (!result.IsSuccess)
+                return BadRequest(result.Error);
+
+            return Ok();
         }
     }
 }

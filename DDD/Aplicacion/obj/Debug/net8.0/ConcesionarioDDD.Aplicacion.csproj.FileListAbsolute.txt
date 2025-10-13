@@ -15,3 +15,21 @@ C:\Users\mateo\Downloads\Sexto Semestre\Arquitectura de software\DDD\Aplicacion\
 C:\Users\mateo\Downloads\Sexto Semestre\Arquitectura de software\DDD\Aplicacion\obj\Debug\net8.0\refint\ConcesionarioDDD.Aplicacion.dll
 C:\Users\mateo\Downloads\Sexto Semestre\Arquitectura de software\DDD\Aplicacion\obj\Debug\net8.0\ConcesionarioDDD.Aplicacion.pdb
 C:\Users\mateo\Downloads\Sexto Semestre\Arquitectura de software\DDD\Aplicacion\obj\Debug\net8.0\ref\ConcesionarioDDD.Aplicacion.dll
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Aplicacion\obj\Debug\net8.0\ConcesionarioDDD.Aplicacion.dll
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Aplicacion\obj\Debug\net8.0\refint\ConcesionarioDDD.Aplicacion.dll
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Aplicacion\obj\Debug\net8.0\ConcesionarioDDD.Aplicacion.pdb
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Aplicacion\bin\Debug\net8.0\ConcesionarioDDD.Aplicacion.deps.json
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Aplicacion\bin\Debug\net8.0\ConcesionarioDDD.Aplicacion.dll
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Aplicacion\bin\Debug\net8.0\ConcesionarioDDD.Aplicacion.pdb
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Aplicacion\bin\Debug\net8.0\ConcesionarioDDD.Dominio.dll
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Aplicacion\bin\Debug\net8.0\ConcesionarioDDD.SharedKernel.dll
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Aplicacion\bin\Debug\net8.0\ConcesionarioDDD.Dominio.pdb
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Aplicacion\bin\Debug\net8.0\ConcesionarioDDD.SharedKernel.pdb
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Aplicacion\obj\Debug\net8.0\ConcesionarioDDD.Aplicacion.csproj.AssemblyReference.cache
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Aplicacion\obj\Debug\net8.0\ConcesionarioDDD.Aplicacion.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Aplicacion\obj\Debug\net8.0\ConcesionarioDDD.Aplicacion.AssemblyInfoInputs.cache
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Aplicacion\obj\Debug\net8.0\ConcesionarioDDD.Aplicacion.AssemblyInfo.cs
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Aplicacion\obj\Debug\net8.0\ConcesionarioDDD.Aplicacion.csproj.CoreCompileInputs.cache
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Aplicacion\obj\Debug\net8.0\ConcesionarioDDD.Aplicacion.sourcelink.json
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Aplicacion\obj\Debug\net8.0\Concesio.90EE2865.Up2Date
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Aplicacion\obj\Debug\net8.0\ref\ConcesionarioDDD.Aplicacion.dll

@@ -1,14 +1,14 @@
 using System;
 using System.Threading.Tasks;
-using ConcesionarioDDD.Dominio.Entidades;
+using ConcesionarioDDD.Dominio.Agregados;
 
 namespace ConcesionarioDDD.Dominio.Interfaces
 {
     public interface IVehiculoRepositorio
     {
-        Task<Vehiculo?> ObtenerPorIdAsync(Guid id);
-        Task ActualizarAsync(Vehiculo vehiculo);
-        Task AgregarAsync(Vehiculo vehiculo);
-        Task<IEnumerable<Vehiculo>> ObtenerTodosAsync();
+        Task<VehiculoAgregado?> ObtenerPorIdAsync(Guid id);
+        Task ActualizarAsync(VehiculoAgregado vehiculo);
+        Task AgregarAsync(VehiculoAgregado vehiculo);
+        Task<IEnumerable<VehiculoAgregado>> ObtenerTodosAsync();
     }
 }

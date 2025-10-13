@@ -2,11 +2,13 @@ namespace ConcesionarioDDD.SharedKernel
 {
     public abstract class DomainEvent
     {
-        public DateTime OccurredOn { get; }
+        public Guid EventoId { get; }
+        public DateTime OcurridoEn { get; }
 
         protected DomainEvent()
         {
-            OccurredOn = DateTime.UtcNow;
+            EventoId = Guid.NewGuid();
+            OcurridoEn = DateTime.UtcNow;
         }
     }
 }

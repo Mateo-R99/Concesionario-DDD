@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "70Eh5h0hxF8=",
+  "dgSpecHash": "wRrbSbZq9J8=",
   "success": true,
-  "projectFilePath": "c:\\Users\\mateo\\Downloads\\Sexto Semestre\\Arquitectura de software\\DDD\\Presentacion\\ConcesionarioDDD.Presentacion.csproj",
+  "projectFilePath": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Presentacion\\ConcesionarioDDD.Presentacion.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\mateo\\.nuget\\packages\\fluentvalidation\\11.11.0\\fluentvalidation.11.11.0.nupkg.sha512",
+    "C:\\Users\\mateo\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.1\\fluentvalidation.aspnetcore.11.3.1.nupkg.sha512",
+    "C:\\Users\\mateo\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.11.0\\fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",
     "C:\\Users\\mateo\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\mateo\\.nuget\\packages\\microsoft.aspnetcore.openapi\\8.0.1\\microsoft.aspnetcore.openapi.8.0.1.nupkg.sha512",
     "C:\\Users\\mateo\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\7.0.0\\microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",

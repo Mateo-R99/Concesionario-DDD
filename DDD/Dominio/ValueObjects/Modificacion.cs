@@ -4,10 +4,14 @@ namespace ConcesionarioDDD.Dominio.ValueObjects
 {
     public class Modificacion : ValueObject
     {
-        public string Descripcion { get; private set; }
+        public string Descripcion { get; private set; } = string.Empty;
         public decimal Precio { get; private set; }
 
-        private Modificacion() { } // Para EF Core
+        private Modificacion() 
+        { 
+            Descripcion = string.Empty;
+            Precio = 0;
+        } // Para EF Core
 
         public Modificacion(string descripcion, decimal precio)
         {

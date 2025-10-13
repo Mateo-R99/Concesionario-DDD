@@ -19,6 +19,7 @@ namespace ConcesionarioDDD.Dominio.Entidades
         private Cotizacion()
         {
             _extras = new List<(string, Precio)>();
+            PrecioBase = new Precio(0); // Valor por defecto para EF Core
         }
 
         public Cotizacion(Guid vehiculoId, Precio precioBase, int diasVigencia)
@@ -47,10 +48,10 @@ namespace ConcesionarioDDD.Dominio.Entidades
 
         private Precio CalcularPrecioFinal()
         {
-            var precioTotal = PrecioBase.Monto;
+            var precioTotal = PrecioBase.MontoBase;
             foreach (var extra in _extras)
             {
-                precioTotal += extra.Precio.Monto;
+                precioTotal += extra.Precio.MontoBase;
             }
 
             if (PorcentajeDescuento > 0)

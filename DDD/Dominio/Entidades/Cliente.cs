@@ -4,12 +4,18 @@ namespace ConcesionarioDDD.Dominio.Entidades
 {
     public class Cliente : Entity<Guid>
     {
-        public string Nombre { get; private set; }
-        public string Identificacion { get; private set; }
-        public string Email { get; private set; }
-        public string Telefono { get; private set; }
+        public string Nombre { get; private set; } = string.Empty;
+        public string Identificacion { get; private set; } = string.Empty;
+        public string Email { get; private set; } = string.Empty;
+        public string Telefono { get; private set; } = string.Empty;
 
-        private Cliente() { } // Para EF Core
+        private Cliente() 
+        { 
+            Nombre = string.Empty;
+            Identificacion = string.Empty;
+            Email = string.Empty;
+            Telefono = string.Empty;
+        } // Para EF Core
 
         public Cliente(string nombre, string identificacion, string email, string telefono)
         {
