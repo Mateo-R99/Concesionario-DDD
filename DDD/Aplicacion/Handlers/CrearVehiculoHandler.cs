@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using ConcesionarioDDD.Aplicacion.Commands;
 using ConcesionarioDDD.Aplicacion.Handlers.Interfaces;
-using ConcesionarioDDD.Dominio.Agregados;
+using ConcesionarioDDD.Dominio.Entidades;
 using ConcesionarioDDD.Dominio.Interfaces;
 using ConcesionarioDDD.SharedKernel;
 
@@ -25,8 +25,8 @@ namespace ConcesionarioDDD.Aplicacion.Handlers
         {
             try
             {
-                // Crear el agregado de vehículo
-                var vehiculo = new VehiculoAgregado(
+                // Crear el vehículo
+                var vehiculo = new Vehiculo(
                     command.Marca,
                     command.Modelo,
                     command.Año,

@@ -1,6 +1,6 @@
 using ConcesionarioDDD.SharedKernel;
 using ConcesionarioDDD.Dominio.ValueObjects;
-using ConcesionarioDDD.Dominio.Events;
+using ConcesionarioDDD.Dominio.Eventos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,12 +62,12 @@ namespace ConcesionarioDDD.Dominio.Entidades
             _modificaciones.Add(modificacion);
 
             // Publicar evento de dominio
-            AgregarEventoDominio(new ModificacionAgregada(Id, descripcion, precio));
+            AddDomainEvent(new ModificacionAgregada(Id, descripcion, precio));
 
             return Result.Success();
         }
 
-        public Result MarcarComoReservado()
+        public Result Reservar(Guid clienteId)
         {
             if (Estado != EstadoVehiculo.Disponible)
                 return Result.Fail("El vehículo no está disponible para reserva");
@@ -75,7 +75,7 @@ namespace ConcesionarioDDD.Dominio.Entidades
             Estado = EstadoVehiculo.Reservado;
 
             // Publicar evento de dominio
-            AgregarEventoDominio(new VehiculoReservado(Id, Marca, Modelo));
+            AddDomainEvent(new VehiculoReservado(Id, clienteId));
 
             return Result.Success();
         }
@@ -88,7 +88,7 @@ namespace ConcesionarioDDD.Dominio.Entidades
             Estado = EstadoVehiculo.Vendido;
 
             // Publicar evento de dominio
-            AgregarEventoDominio(new VehiculoVendido(Id, Marca, Modelo, PrecioTotal));
+            AddDomainEvent(new VehiculoVendido(Id, Marca, Modelo, PrecioTotal));
 
             return Result.Success();
         }
@@ -101,7 +101,7 @@ namespace ConcesionarioDDD.Dominio.Entidades
             Estado = EstadoVehiculo.Disponible;
 
             // Publicar evento de dominio
-            AgregarEventoDominio(new ReservaCancelada(Id));
+            AddDomainEvent(new ReservaCancelada(Id));
 
             return Result.Success();
         }

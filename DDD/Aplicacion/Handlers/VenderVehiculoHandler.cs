@@ -40,16 +40,13 @@ namespace ConcesionarioDDD.Aplicacion.Handlers
 
                 await _vehiculoRepositorio.ActualizarAsync(vehiculo);
 
-                // Despachar eventos si hay
-                if (vehiculo is IDomainEventEmitter eventEmitter)
-                {
-                    await _eventDispatcher.DispatchAsync(eventEmitter.GetDomainEvents());
-                    eventEmitter.ClearDomainEvents();
-                }
+                // Despachar eventos
+                await _eventDispatcher.DispatchAsync(vehiculo.DomainEvents);
+                vehiculo.ClearDomainEvents();
 
                 await _unitOfWork.SaveChangesAsync();
 
-                return Result<decimal>.Ok(vehiculo.CalcularPrecioTotal());
+                return Result<decimal>.Ok(vehiculo.PrecioTotal);
             }
             catch (InvalidOperationException ex)
             {

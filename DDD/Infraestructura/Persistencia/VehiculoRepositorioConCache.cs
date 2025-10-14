@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ConcesionarioDDD.Dominio.Agregados;
+using ConcesionarioDDD.Dominio.Entidades;
 using ConcesionarioDDD.Dominio.Interfaces;
 using Microsoft.Extensions.Logging;
 
@@ -25,12 +25,12 @@ namespace ConcesionarioDDD.Infraestructura.Persistencia
             _logger = logger;
         }
 
-        public async Task<VehiculoAgregado?> ObtenerPorIdAsync(Guid id)
+        public async Task<Vehiculo?> ObtenerPorIdAsync(Guid id)
         {
             var cacheKey = $"{CACHE_KEY_PREFIX}{id}";
 
             // Intentar obtener del caché
-            var vehiculoEnCache = await _cacheService.GetAsync<VehiculoAgregado>(cacheKey);
+            var vehiculoEnCache = await _cacheService.GetAsync<Vehiculo>(cacheKey);
             if (vehiculoEnCache != null)
             {
                 _logger.LogInformation("Vehículo {VehiculoId} obtenido del caché", id);
@@ -50,10 +50,10 @@ namespace ConcesionarioDDD.Infraestructura.Persistencia
             return vehiculo;
         }
 
-        public async Task<IEnumerable<VehiculoAgregado>> ObtenerTodosAsync()
+        public async Task<IEnumerable<Vehiculo>> ObtenerTodosAsync()
         {
             // Intentar obtener del caché
-            var vehiculosEnCache = await _cacheService.GetAsync<IEnumerable<VehiculoAgregado>>(CACHE_KEY_ALL);
+            var vehiculosEnCache = await _cacheService.GetAsync<IEnumerable<Vehiculo>>(CACHE_KEY_ALL);
             if (vehiculosEnCache != null)
             {
                 _logger.LogInformation("Lista de vehículos obtenida del caché");
@@ -70,7 +70,7 @@ namespace ConcesionarioDDD.Infraestructura.Persistencia
             return vehiculos;
         }
 
-        public async Task AgregarAsync(VehiculoAgregado vehiculo)
+        public async Task AgregarAsync(Vehiculo vehiculo)
         {
             await _innerRepository.AgregarAsync(vehiculo);
 
@@ -84,7 +84,7 @@ namespace ConcesionarioDDD.Infraestructura.Persistencia
             _logger.LogInformation("Vehículo {VehiculoId} agregado y caché actualizado", vehiculo.Id);
         }
 
-        public async Task ActualizarAsync(VehiculoAgregado vehiculo)
+        public async Task ActualizarAsync(Vehiculo vehiculo)
         {
             await _innerRepository.ActualizarAsync(vehiculo);
 

@@ -44,7 +44,7 @@ namespace ConcesionarioDDD.Presentacion.Controllers
                 Modelo = v.Modelo,
                 Año = v.Año,
                 Color = v.Color,
-                PrecioBase = v.PrecioBase.MontoBase,
+                PrecioBase = v.PrecioBase,
                 Estado = v.Estado.ToString(),
                 Modificaciones = v.Modificaciones?.Select(m => new ModificacionDTO
                 {
@@ -70,7 +70,7 @@ namespace ConcesionarioDDD.Presentacion.Controllers
                 Modelo = vehiculo.Modelo,
                 Año = vehiculo.Año,
                 Color = vehiculo.Color,
-                PrecioBase = vehiculo.PrecioBase.MontoBase,
+                PrecioBase = vehiculo.PrecioBase,
                 Estado = vehiculo.Estado.ToString(),
                 Modificaciones = vehiculo.Modificaciones?.Select(m => new ModificacionDTO
                 {
@@ -101,6 +101,22 @@ namespace ConcesionarioDDD.Presentacion.Controllers
             return CreatedAtAction(nameof(ObtenerPorId), new { id = result.Value }, result.Value);
         }
 
+        [HttpGet("{id}/modificaciones")]
+        public async Task<ActionResult<IEnumerable<ModificacionDTO>>> ObtenerModificaciones(Guid id)
+        {
+            var vehiculo = await _vehiculoRepositorio.ObtenerPorIdAsync(id);
+            if (vehiculo == null)
+                return NotFound();
+
+            var modificaciones = vehiculo.Modificaciones?.Select(m => new ModificacionDTO
+            {
+                Descripcion = m.Descripcion,
+                Precio = m.Precio
+            }).ToList() ?? new List<ModificacionDTO>();
+
+            return Ok(modificaciones);
+        }
+
         [HttpPost("{id}/modificaciones")]
         public async Task<IActionResult> AgregarModificacion(Guid id, [FromBody] ModificacionDTO dto)
         {
@@ -118,10 +134,36 @@ namespace ConcesionarioDDD.Presentacion.Controllers
             return Ok();
         }
 
-        [HttpPost("reservar/{id}")]
-        public async Task<IActionResult> ReservarVehiculo(Guid id)
+        [HttpGet("reservados")]
+        public async Task<ActionResult<IEnumerable<VehiculoDTO>>> ObtenerVehiculosReservados()
         {
-            var command = new ReservarVehiculoCommand(id);
+            var vehiculos = await _vehiculoRepositorio.ObtenerTodosAsync();
+            var vehiculosReservados = vehiculos
+                .Where(v => v.Estado == Dominio.EstadoVehiculo.Reservado)
+                .Select(v => new VehiculoDTO
+                {
+                    Id = v.Id,
+                    Marca = v.Marca,
+                    Modelo = v.Modelo,
+                    Año = v.Año,
+                    Color = v.Color,
+                    PrecioBase = v.PrecioBase,
+                    Estado = v.Estado.ToString(),
+                    Modificaciones = v.Modificaciones?.Select(m => new ModificacionDTO
+                    {
+                        Descripcion = m.Descripcion,
+                        Precio = m.Precio
+                    }).ToList() ?? new List<ModificacionDTO>()
+                });
+
+            return Ok(vehiculosReservados);
+        }
+
+        [HttpDelete("reservar/{id}")]
+        public async Task<IActionResult> EliminarReserva(Guid id)
+        {
+            var clienteId = Guid.NewGuid(); // En un sistema real, esto vendría del token de autenticación
+            var command = new ReservarVehiculoCommand(id, clienteId);
 
             var result = await _reservarVehiculoHandler.Handle(command);
 
@@ -129,6 +171,41 @@ namespace ConcesionarioDDD.Presentacion.Controllers
                 return BadRequest(result.Error);
 
             return Ok();
+        }
+
+        [HttpGet("vender/{id}")]
+        public async Task<ActionResult<VehiculoDTO>> ObtenerVehiculoParaVender(Guid id)
+        {
+            var vehiculo = await _vehiculoRepositorio.ObtenerPorIdAsync(id);
+            if (vehiculo == null)
+                return NotFound();
+
+            if (vehiculo.Estado != Dominio.EstadoVehiculo.Disponible && vehiculo.Estado != Dominio.EstadoVehiculo.Reservado)
+                return BadRequest("El vehículo no está disponible para la venta");
+
+            decimal precioTotal = vehiculo.PrecioBase;
+            if (vehiculo.Modificaciones != null)
+            {
+                precioTotal += vehiculo.Modificaciones.Sum(m => m.Precio);
+            }
+
+            var vehiculoDto = new VehiculoDTO
+            {
+                Id = vehiculo.Id,
+                Marca = vehiculo.Marca,
+                Modelo = vehiculo.Modelo,
+                Año = vehiculo.Año,
+                Color = vehiculo.Color,
+                PrecioBase = vehiculo.PrecioBase,
+                Estado = vehiculo.Estado.ToString(),
+                Modificaciones = vehiculo.Modificaciones?.Select(m => new ModificacionDTO
+                {
+                    Descripcion = m.Descripcion,
+                    Precio = m.Precio
+                }).ToList() ?? new List<ModificacionDTO>()
+            };
+
+            return Ok(new { Vehiculo = vehiculoDto, PrecioTotal = precioTotal });
         }
 
         [HttpPost("vender/{id}")]
@@ -142,6 +219,49 @@ namespace ConcesionarioDDD.Presentacion.Controllers
                 return BadRequest(result.Error);
 
             return Ok(new { PrecioFinal = result.Value });
+        }
+
+        [HttpGet("reservar/{id}")]
+        public async Task<ActionResult<VehiculoDTO>> ObtenerVehiculoParaReservar(Guid id)
+        {
+            var vehiculo = await _vehiculoRepositorio.ObtenerPorIdAsync(id);
+            if (vehiculo == null)
+                return NotFound();
+
+            if (vehiculo.Estado != Dominio.EstadoVehiculo.Disponible)
+                return BadRequest("El vehículo no está disponible para reserva");
+
+            var vehiculoDto = new VehiculoDTO
+            {
+                Id = vehiculo.Id,
+                Marca = vehiculo.Marca,
+                Modelo = vehiculo.Modelo,
+                Año = vehiculo.Año,
+                Color = vehiculo.Color,
+                PrecioBase = vehiculo.PrecioBase,
+                Estado = vehiculo.Estado.ToString(),
+                Modificaciones = vehiculo.Modificaciones?.Select(m => new ModificacionDTO
+                {
+                    Descripcion = m.Descripcion,
+                    Precio = m.Precio
+                }).ToList() ?? new List<ModificacionDTO>()
+            };
+
+            return Ok(vehiculoDto);
+        }
+
+        [HttpPost("reservar/{id}/confirmar")]
+        public async Task<IActionResult> ConfirmarReserva(Guid id)
+        {
+            var clienteId = Guid.NewGuid(); // En un sistema real, esto vendría del token de autenticación
+            var command = new ReservarVehiculoCommand(id, clienteId);
+
+            var result = await _reservarVehiculoHandler.Handle(command);
+
+            if (!result.IsSuccess)
+                return BadRequest(result.Error);
+
+            return Ok();
         }
 
         [HttpPost("cancelar-reserva/{id}")]

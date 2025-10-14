@@ -14,6 +14,14 @@ using FluentValidation.AspNetCore;
 using ConcesionarioDDD.Aplicacion.Validators;
 using Microsoft.AspNetCore.Mvc;
 using ConcesionarioDDD.Infraestructura.Caching;
+using ConcesionarioDDD.Dominio.Eventos;
+using ConcesionarioDDD.Infraestructura.Events.Handlers;
+
+// Para evitar que la aplicación se cierre inmediatamente
+Console.CancelKeyPress += (sender, e) =>
+{
+    e.Cancel = true;
+};
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,8 +61,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddDbContext<ConcesionarioDbContext>(options =>
 {
     options.UseInMemoryDatabase("ConcesionarioDB");
-    // Desactivar el tracking por defecto para mejor rendimiento
-    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    options.ConfigureWarnings(warnings => warnings.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.CoreEventId.NavigationBaseIncluded));
 });
 
 // Registrar Memory Cache
@@ -64,14 +71,18 @@ builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<ICacheService, MemoryCacheService>();
 
 // Register repositories and services
-builder.Services.AddScoped<VehiculoRepositorioEnMemoria>();
-builder.Services.AddScoped<IVehiculoRepositorio, VehiculoRepositorioConCache>();
+builder.Services.AddSingleton<VehiculoRepositorioEnMemoria>();
+builder.Services.AddSingleton<IVehiculoRepositorio>(sp => sp.GetRequiredService<VehiculoRepositorioEnMemoria>());
 
 // Register Unit of Work
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-// Register Event Dispatcher
+// Register Event Dispatcher and Event Handlers
 builder.Services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
+builder.Services.AddScoped<IEventHandler<VehiculoReservado>, VehiculoReservadoHandler>();
+builder.Services.AddScoped<IEventHandler<VehiculoVendido>, VehiculoVendidoHandler>();
+builder.Services.AddScoped<IEventHandler<ReservaCancelada>, ReservaCanceladaHandler>();
+builder.Services.AddScoped<IEventHandler<ModificacionAgregada>, ModificacionAgregadaHandler>();
 
 // Register Application Handlers
 builder.Services.AddScoped<ICrearVehiculoHandler, CrearVehiculoHandler>();
@@ -93,9 +104,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// Skip HTTPS redirection for development
+// app.UseHttpsRedirection();
 app.UseCors("AllowAll"); // Habilitar CORS
 app.UseAuthorization();
 app.MapControllers();
+
+// Inicializar datos solo al arrancar
+using (var scope = app.Services.CreateScope())
+{
+    var vehiculoRepo = scope.ServiceProvider.GetRequiredService<VehiculoRepositorioEnMemoria>();
+    vehiculoRepo.InicializarDatos();
+}
 
 app.Run();

@@ -1,17 +1,23 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ConcesionarioDDD.Dominio.Interfaces;
 using ConcesionarioDDD.SharedKernel;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace ConcesionarioDDD.Infraestructura.Events
 {
     public class DomainEventDispatcher : IDomainEventDispatcher
     {
+        private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<DomainEventDispatcher> _logger;
 
-        public DomainEventDispatcher(ILogger<DomainEventDispatcher> logger)
+        public DomainEventDispatcher(
+            IServiceProvider serviceProvider,
+            ILogger<DomainEventDispatcher> logger)
         {
+            _serviceProvider = serviceProvider;
             _logger = logger;
         }
 
@@ -26,9 +32,27 @@ namespace ConcesionarioDDD.Infraestructura.Events
                     domainEvent.OcurridoEn
                 );
 
-                // Aquí se pueden agregar handlers específicos para cada evento
-                // Por ahora solo registramos el evento
-                await Task.CompletedTask;
+                var eventType = domainEvent.GetType();
+                var handlerType = typeof(IEventHandler<>).MakeGenericType(eventType);
+
+                using (var scope = _serviceProvider.CreateScope())
+                {
+                    var handlers = scope.ServiceProvider.GetServices(handlerType);
+
+                    foreach (var handler in handlers)
+                    {
+                        try
+                        {
+                            await (Task)handlerType
+                                .GetMethod("Handle")!
+                                .Invoke(handler, new object[] { domainEvent })!;
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError(ex, "Error al manejar evento {EventType}", eventType.Name);
+                        }
+                    }
+                }
             }
         }
     }

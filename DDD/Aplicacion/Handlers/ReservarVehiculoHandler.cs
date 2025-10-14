@@ -35,7 +35,7 @@ namespace ConcesionarioDDD.Aplicacion.Handlers
                     return Result<bool>.Fail("Vehículo no encontrado");
 
                 // Ejecutar lógica de dominio
-                var result = vehiculo.Reservar();
+                var result = vehiculo.Reservar(command.ClienteId);
                 if (!result.IsSuccess)
                     return Result<bool>.Fail(result.Error);
 

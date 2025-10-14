@@ -41,11 +41,8 @@ namespace ConcesionarioDDD.Aplicacion.Handlers
                 await _vehiculoRepositorio.ActualizarAsync(vehiculo);
 
                 // Despachar eventos
-                if (vehiculo is IDomainEventEmitter eventEmitter)
-                {
-                    await _eventDispatcher.DispatchAsync(eventEmitter.GetDomainEvents());
-                    eventEmitter.ClearDomainEvents();
-                }
+                await _eventDispatcher.DispatchAsync(vehiculo.DomainEvents);
+                vehiculo.ClearDomainEvents();
 
                 await _unitOfWork.SaveChangesAsync();
 

@@ -1,5 +1,5 @@
 using ConcesionarioDDD.Aplicacion.Commands;
-using ConcesionarioDDD.Dominio.Agregados;
+using ConcesionarioDDD.Dominio.Entidades;
 using ConcesionarioDDD.Dominio.Interfaces;
 using ConcesionarioDDD.SharedKernel;
 
@@ -16,13 +16,13 @@ namespace ConcesionarioDDD.Aplicacion.UseCases.Vehiculos
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result<VehiculoAgregado>> Handle(CrearVehiculoCommand command)
+        public async Task<Result<Vehiculo>> Handle(CrearVehiculoCommand command)
         {
             try
             {
                 await _unitOfWork.BeginTransactionAsync();
 
-                var vehiculo = new VehiculoAgregado(
+                var vehiculo = new Vehiculo(
                     command.Marca,
                     command.Modelo,
                     command.Año,
@@ -33,12 +33,12 @@ namespace ConcesionarioDDD.Aplicacion.UseCases.Vehiculos
                 await _vehiculoRepositorio.AgregarAsync(vehiculo);
                 await _unitOfWork.CommitTransactionAsync();
 
-                return Result<VehiculoAgregado>.Ok(vehiculo);
+                return Result<Vehiculo>.Ok(vehiculo);
             }
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackTransactionAsync();
-                return Result<VehiculoAgregado>.Fail($"Error al crear el vehículo: {ex.Message}");
+                return Result<Vehiculo>.Fail($"Error al crear el vehículo: {ex.Message}");
             }
         }
     }

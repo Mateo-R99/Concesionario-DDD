@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-using ConcesionarioDDD.Dominio.Agregados;
+using ConcesionarioDDD.Dominio.Entidades;
 using ConcesionarioDDD.Dominio.Interfaces;
 
 namespace ConcesionarioDDD.Infraestructura.Persistencia
@@ -16,17 +16,17 @@ namespace ConcesionarioDDD.Infraestructura.Persistencia
             _context = context;
         }
 
-        public async Task<IEnumerable<VehiculoAgregado>> ObtenerTodosAsync()
+        public async Task<IEnumerable<Vehiculo>> ObtenerTodosAsync()
         {
             return await Task.FromResult(_context.Vehiculos.ToList());
         }
 
-        public async Task<VehiculoAgregado?> ObtenerPorIdAsync(Guid id)
+        public async Task<Vehiculo?> ObtenerPorIdAsync(Guid id)
         {
             return await Task.FromResult(_context.Vehiculos.FirstOrDefault(v => v.Id == id));
         }
 
-        public async Task ActualizarAsync(VehiculoAgregado vehiculo)
+        public async Task ActualizarAsync(Vehiculo vehiculo)
         {
             var vehiculoExistente = await ObtenerPorIdAsync(vehiculo.Id);
             if (vehiculoExistente == null)
@@ -37,7 +37,7 @@ namespace ConcesionarioDDD.Infraestructura.Persistencia
             await _context.SaveChangesAsync();
         }
 
-        public async Task AgregarAsync(VehiculoAgregado vehiculo)
+        public async Task AgregarAsync(Vehiculo vehiculo)
         {
             _context.Vehiculos.Add(vehiculo);
             await _context.SaveChangesAsync();
