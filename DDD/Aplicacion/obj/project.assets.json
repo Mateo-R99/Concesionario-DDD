@@ -740,11 +740,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Aplicacion\\ConcesionarioDDD.Aplicacion.csproj",
+      "projectUniqueName": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Aplicacion\\ConcesionarioDDD.Aplicacion.csproj",
       "projectName": "ConcesionarioDDD.Aplicacion",
-      "projectPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Aplicacion\\ConcesionarioDDD.Aplicacion.csproj",
+      "projectPath": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Aplicacion\\ConcesionarioDDD.Aplicacion.csproj",
       "packagesPath": "C:\\Users\\mateo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Aplicacion\\obj\\",
+      "outputPath": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Aplicacion\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mateo\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -759,11 +759,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj": {
-              "projectPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj"
+            "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj": {
+              "projectPath": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\Dominio\\ConcesionarioDDD.Dominio.csproj"
             },
-            "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj": {
-              "projectPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj"
+            "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj": {
+              "projectPath": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj"
             }
           }
         }

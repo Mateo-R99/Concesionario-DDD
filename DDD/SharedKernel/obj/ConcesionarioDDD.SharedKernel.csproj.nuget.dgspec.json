@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj": {}
+    "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj": {
+    "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj",
+        "projectUniqueName": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj",
         "projectName": "ConcesionarioDDD.SharedKernel",
-        "projectPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj",
+        "projectPath": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\ConcesionarioDDD.SharedKernel.csproj",
         "packagesPath": "C:\\Users\\mateo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\obj\\",
+        "outputPath": "c:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Concesionario-DDD\\DDD\\SharedKernel\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mateo\\AppData\\Roaming\\NuGet\\NuGet.Config"
