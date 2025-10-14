@@ -290,3 +290,10 @@ C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Presentacion\obj
 C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Presentacion\obj\Debug\net8.0\Concesio.17E4096C.Up2Date
 C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Presentacion\obj\Debug\net8.0\ConcesionarioDDD.Presentacion.genruntimeconfig.cache
 C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Presentacion\obj\Debug\net8.0\ref\ConcesionarioDDD.Presentacion.dll
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Presentacion\bin\Debug\net8.0\MediatR.dll
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Presentacion\bin\Debug\net8.0\MediatR.Contracts.dll
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Presentacion\bin\Debug\net8.0\MediatR.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Presentacion\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Presentacion\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Presentacion\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\mateo\OneDrive\Documentos\GitHub\Concesionario-DDD\DDD\Presentacion\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll

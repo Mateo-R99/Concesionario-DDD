@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Mvc;
 using ConcesionarioDDD.Infraestructura.Caching;
 using ConcesionarioDDD.Dominio.Eventos;
 using ConcesionarioDDD.Infraestructura.Events.Handlers;
+using Microsoft.AspNetCore.Mvc.Filters;
+using MediatR;
 
 // Para evitar que la aplicación se cierre inmediatamente
 Console.CancelKeyPress += (sender, e) =>
@@ -90,6 +92,8 @@ builder.Services.AddScoped<IReservarVehiculoHandler, ReservarVehiculoHandler>();
 builder.Services.AddScoped<IAgregarModificacionHandler, AgregarModificacionHandler>();
 builder.Services.AddScoped<IVenderVehiculoHandler, VenderVehiculoHandler>();
 builder.Services.AddScoped<ICancelarReservaHandler, CancelarReservaHandler>();
+
+// TODO: Register Transaction Behavior once MediatR is set up
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
