@@ -41,16 +41,71 @@ dotnet run
 
 4. La base de datos es en memoria y viene pre-poblada con algunos vehículos de ejemplo (Toyota Corolla, Honda Civic, Ford Mustang).
 
-## Endpoints (orientativo)
+## Endpoints API REST
 
-Los controladores están en `DDD/Presentacion/Controllers` (si no existen, revisa la carpeta). Basado en la estructura del proyecto, los endpoints esperados son para gestionar vehículos, cotizaciones y ventas. Ejemplos posibles:
+La API proporciona los siguientes endpoints para gestionar el concesionario:
 
-- GET /api/vehiculos - obtener todos los vehículos
-- GET /api/vehiculos/{id} - obtener vehículo por id
-- POST /api/vehiculos - crear un vehículo
-- PUT /api/vehiculos/{id} - actualizar un vehículo
+### Gestión de Vehículos
+- `GET /api/Vehiculos` - Lista todos los vehículos
+- `GET /api/Vehiculos/{id}` - Obtiene un vehículo específico
+- `POST /api/Vehiculos` - Crea un nuevo vehículo
+- `GET /api/Vehiculos/reservados` - Lista los vehículos reservados
 
-Usa Swagger para ver los endpoints exactos y los DTOs requeridos.
+### Modificaciones
+- `GET /api/Vehiculos/{id}/modificaciones` - Lista las modificaciones de un vehículo
+- `POST /api/Vehiculos/{id}/modificaciones` - Agrega una modificación al vehículo
+
+### Proceso de Reserva
+- `GET /api/Vehiculos/reservar/{id}` - Muestra información para reservar
+- `POST /api/Vehiculos/reservar/{id}` - Realiza la reserva
+- `POST /api/Vehiculos/cancelar-reserva/{id}` - Cancela una reserva
+
+### Proceso de Venta
+- `GET /api/Vehiculos/vender/{id}` - Muestra información para vender (incluye precio total)
+- `POST /api/Vehiculos/vender/{id}` - Realiza la venta
+
+### Ejemplos de Uso
+
+#### Crear un Vehículo
+```json
+POST /api/Vehiculos
+{
+    "marca": "BMW",
+    "modelo": "220i",
+    "año": 2025,
+    "color": "negro",
+    "precioBase": 100000
+}
+```
+
+#### Agregar Modificación
+```json
+POST /api/Vehiculos/{id}/modificaciones
+{
+    "descripcion": "Techo panorámico",
+    "precio": 5000
+}
+```
+
+#### Reservar Vehículo
+```json
+POST /api/Vehiculos/reservar/{id}
+// No requiere body, genera ID de cliente automáticamente
+```
+
+#### Vender Vehículo
+```json
+POST /api/Vehiculos/vender/{id}
+// No requiere body, calcula precio final automáticamente
+```
+
+### Estados de Vehículo
+El sistema maneja los siguientes estados para los vehículos:
+- `Disponible`: Puede ser reservado o vendido
+- `Reservado`: Está apartado para un cliente
+- `Vendido`: Ha sido vendido y no está disponible
+
+Usa Swagger UI (disponible en `/swagger`) para explorar y probar todos los endpoints.
 
 ## Estructura del código y decisiones de diseño
 
